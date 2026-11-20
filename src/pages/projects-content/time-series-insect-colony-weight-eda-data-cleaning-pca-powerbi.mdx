@@ -1,0 +1,168 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+
+export const meta = {
+  author: 'Pouya Sattari',
+  date: '2024-01-22',
+  title: 'Time Series: Insect Colony Weight -EDA, Data Cleaning, PCA -PowerBI',
+  description: 'Explore insect colony weight dynamics with predictive modeling',
+}
+
+export default function Article(props) {
+  return <ArticleLayout {...props} meta={meta} />
+}
+
+**Case Study**
+
+This report aims to predict the weight values of an insect colony based on several environmental factors and colony activity. The _train_data_ dataset has 11 variables:
+
+*   colony_activity;
+*   dead_colony_weight;
+*   nest_temperature;
+*   nest_humidity;
+*   red_luminous_intensity;
+*   green_luminous_intensity;
+*   white_luminous_intensity;
+*   blue_luminous_intensity;
+*   IR_luminous_intensity;
+*   sound_intensity;
+*   nest_weight;
+
+The first phase of the study will involve data cleaning and related descriptive statistics of both the individual variables and the relationships between them. In a second step, feature engineering will be performed to better identify the incidence of the different variables and their influence on the weight of the insect colony. In the final part of the project, forecasting models will be evaluated and applied to the training dataset to test whether the future weight of the insect colony can be predicted with relative accuracy based on the other variables.
+
+* * *
+
+**Data Cleaning and EDA** (Exploratory Data Analysis)
+
+As mentioned earlier, the first step in the case study in question concerns data cleaning. This means checking for missing data, values that disagree with the assumed unit of measurement of the variable in question, and possibly incorrectly recorded data. For such analysis and the descriptive statistics part, we make use of Power BI software, which allows various tools for data visualization and makes data manipulation efficient.
+
+First, we go looking for any missing values that, if preponderant in one of the variables, would lead us either to disregard that variable or to look for a way to replace them. Fortunately, no missing values appear to be present in our dataset. We can now go on to visualize and analyze the frequency distributions of the variables we possess.
+
+Since we possess only numeric variables, this type of data visualization will allow us to see in which intervals we have a greater concentration of values and later check for outliers. The latter could adversely affect both the identification of certain characteristics of the variables and the performance of the prediction models.
+
+First, we can point out that, both the graphs related to the insect colony activity, dead colony, and those related to light intensity have a strong concentration of values near 0. In contrast, the values that we can consider related to the environment, such as humidity and temperature, reach the highest occurrences around 60 percentage points for the former and 20 degrees for the latter.
+
+<img src="/uploads/2024/02/image-67-1024x574.png" />
+
+Figure 2.1: General overview of distributions
+
+* * *
+
+<img src="/uploads/2024/02/image-68.png" />
+
+Figure 2.2: General overview of distributions
+
+* * *
+
+**Time Series Analysis**
+
+We continue our analysis by analyzing the distributions of the variables for time to see if any particular patterns are evident that should be taken into account. It is undeniable that the intensities of different colors follow roughly the same pattern throughout the analysis period, reaching peaks particularly in the afternoon or late morning hours, and dropping dramatically, particularly in the nighttime hours.
+
+Regarding the other variables, we see an average decrease in the level of nest weight increasing the days. Most of the variables show a high unbalance in the distribution of the values over time, only the sound intensity has an almost stable distribution around the values of 300 and 500. Also from these graphs, it is confirmed the presence of outliers. We treated variable outliers using the z-scores and applied the method based on the interquartile range location. In figure 2.5 we see the variables that were most affected by the outliers after their removal.
+
+<img src="/uploads/2024/02/image-69-1024x622.png" />
+
+Figure 2.3: Environment vs dates
+
+* * *
+
+<img src="/uploads/2024/02/image-70-1024x579.png" />
+
+Figure 2.4: Environment vs dates
+
+* * *
+
+<img src="/uploads/2024/02/image-71-1024x575.png" />
+
+Figure 2.5: Changes in distributions after removing outliers
+
+* * *
+
+**How nest weight changes concerning variables and time**
+
+After we analyzed individually each variable frequency distribution and plotted them concerning the time, now we focused on the target variable and its relation to the other ones. In graph 2.6, we analyze luminous intensity, colony activity, humidity, temperature, and nest weight variables to the time of the day.
+
+We see that both luminous intensity and colony activity follow approximately the same path during the day, reaching their peak in the middle of the day. They both have a decrease at 9 am and the only remarkable difference is that luminous intensity starts its huge decrease from 4 pm, instead colony activity from 2 pm.
+
+Both these variables start at 5 am and start increasing while the nest weight starts increasing. It is evident the contrary between 1 pm and 2 pm, between luminous intensity and nest weight, and between 12 am and 1 pm between colony activity and nest weight.
+
+We generally see an almost inversely proportional relationship between nest weight and these two variables during certain hours of the day. We see that from 10 am that average nest humidity almost replicates the pattern of nest weight but completely ignores the drop before 5 and 10 am. Average sound intensity, instead, only after 1 am starts following a bit of the pattern of nest weight. Some significative information can be retrieved from the plot with humidity. Nevertheless, probably the correspondence with the changing of nest weight is only related to the period as changing the period to include only April, the relation almost disappears. In 2.7 we observe the relations between nest weight and the other variables, this time we take into account not only the hours of the day but also the days of observation.
+
+In this case is clear how, in correspondence with most of the increasing colony activity, we see a decreasing of nest weight. It is valid in particular from 6 am to 4 pm. It could be explained by a sort of process of production out of the nest that only every certain amount of period is transposed in an increasing nest weight. For what concerns the graph below in 2.7 Nest humidity follows the decreasing of nest weight in some days of March but in particular in April this pattern almost disappears.
+
+<img src="/uploads/2024/02/image-72-1024x573.png" />
+
+Figure 2.6: Colony activity, nest weight and environmental factors vs hours
+
+* * *
+
+<img src="/uploads/2024/02/image-73-1024x576.png" />
+
+Figure 2.7: Nest weight, colony activity and nest humidity vs dates
+
+* * *
+
+The provided graph shows a positive correlation between nest temperature and sound intensity. This correlation can be explained by the behavior of the colony, which sounds increase when the temperature becomes warmer. This action results in the production of loud noise.
+
+<img src="/uploads/2024/02/image-76-1024x406.png" />
+
+Figure 2.8: Sound Intensity and Nest Temperature
+
+* * *
+
+This chart helps visualize the relationship between daily average colony activity and the stacked columns representing different luminous intensities. It enables us to examine the impact of light intensity on colony activity. Impact of blue luminous intensity: The blue area in the stacked columns represents the intensity of blue light. We can observe that higher levels of blue luminous intensity often coincide with higher levels of colony activity. This suggests a potential positive correlation between blue light intensity and colony activity.
+
+The green area in the stacked columns represents the intensity of the green light. There seems to be a moderate positive correlation between green light intensity and colony activity, as higher green light intensity often corresponds to higher colony activity. Another observation is that on most days, the green Luminous Intensity had a greater volume than the blue Luminous Intensity.
+
+<img src="/uploads/2024/02/image-77-1024x442.png" />
+
+Figure 2.9: Impact of different luminous on Colony activity
+
+* * *
+
+This chart enables us to examine the hourly variation in average nest temperature and the stacked columns representing nest humidity and sound intensity. It helps identify any relationships between temperature, humidity, and sound levels. In terms of Nest Humidity, we can see that it has no relationship with the average Nest Temperature.
+
+On the other hand, Sound Intensity has a direct relationship with Temperature Because they experience quite similar trends.
+
+<img src="/uploads/2024/02/image-78-1024x445.png" />
+
+Figure 2.10: Effect of Nest temperature on Nest humidity and sound intensity
+
+* * *
+
+As we can see, the average Sound Intensity is much lower than others. Also, Sound Intensity has experienced fewer changes than IR Luminous, Nest Humidity, and Nest temperature.
+
+<img src="/uploads/2024/02/image-79-1024x335.png" />
+
+Figure 2.11: Compare environmental factors
+
+* * *
+
+**PCA** (Principal component analysis)
+
+We have seen how some of the variables we possess show a similar pattern, for example, light intensities, and others relate to characteristics that we could somehow relate to environmental factors. Specifically for these reasons, we decided to use principal component analysis to try to highlight more the relations between the variables of our dataset given that we may have some variables that taken independently do not add useful information to the prediction of the nest weight variable.
+
+After taking the numerical variables and standardizing them, we identified the optimal number of principal components to consider. It becomes clear that only the first three principal components are adequate to explain about 80% of the overall variance. More precisely, the first component explains 59%, the second 14%, and the third 9%.
+
+<img src="/uploads/2024/02/image-80.png" />
+
+Figure 2.12: Variance explained by components
+
+* * *
+
+To understand in more detail how the variables interact with each other and concerning the principal components we can use the correlation matrix. What is immediately apparent is the maximum positive correlation between the different light intensities between them and the first principal component.
+
+Also noticeable at the same time is the positive correlation between light intensities and colony activity.
+
+<img src="/uploads/2024/02/image-81.png" />
+
+Figure 2.13: Correlation matrix
+
+* * *
+
+Having seen through correlation how the variables interact with each other and in what different directions they push the principal components, through the following graph we can appreciate not only whether the variables affect the components positively or negatively but also to what extent they weigh on them.
+
+We have seen before that all the luminous intensities had maximum positive correlation with the first component, they are also the variables with the most influence on it. The situation changes radically if we look at the second and the third component where the most influential variables seem to be the ones that we consider before environmental factors.
+
+<img src="/uploads/2024/02/image-82.png" />
+
+Figure 2.14: Variables weight with respect to the PCA

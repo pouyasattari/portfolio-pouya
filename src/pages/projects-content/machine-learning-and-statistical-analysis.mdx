@@ -1,0 +1,160 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+
+export const meta = {
+  author: 'Pouya Sattari',
+  date: '2024-01-23',
+  title: 'Machine Learning and Statistical Analysis',
+  description: 'London Bike Sharing demand prediction in R',
+}
+
+export default function Article(props) {
+  return <ArticleLayout {...props} meta={meta} />
+}
+
+## Machine Learning and Statistical Analysis
+
+### London Bike Sharing demand prediction in R
+
+<img src="/uploads/2024/01/Cycle.jpg" alt="London bike sharing" />
+
+### Introduction
+
+The London Bike Sharing Dataset provides a detailed view of bike rental demand across **hourly time intervals**, enriched with **weather** and **calendar** information. In this project, I use **R** to explore the dataset, engineer time-based features, and train multiple regression models to predict **hourly bike rental demand** (`cnt`). The workflow includes data cleaning, exploratory analysis, outlier handling, model training, and performance comparison.
+
+### Project Objectives
+
+1. **Data preprocessing**: clean data, handle missing values, and align variable types.
+2. **Exploratory data analysis (EDA)**: identify trends, seasonality, and relationships with weather/time features.
+3. **Feature engineering**: extract `year`, `month`, `day`, and `hour` from the timestamp and prepare categorical features.
+4. **Model development**: train and compare multiple regression models in R.
+5. **Evaluation**: assess models using RMSE, MSE, and R-squared (with and without outliers).
+6. **Insights**: highlight key drivers of bike demand and practical takeaways.
+
+---
+
+### Data Source
+
+- **Dataset**: [London Bike Sharing Dataset (Kaggle)](https://www.kaggle.com/datasets/hmavrodiev/london-bike-sharing-dataset)
+
+**Core features used:**
+
+- `timestamp`: observation time (used for feature extraction)
+- `cnt`: total hourly rentals (target)
+- `t1`, `t2`: temperature and “feels like” temperature
+- `hum`: humidity
+- `wind_speed`: wind speed
+- `weather_code`: weather condition category
+- `is_holiday`, `is_weekend`: calendar flags
+- `season`: meteorological season category
+
+---
+
+### Tools and Technologies
+
+- **R / RStudio**
+- Key packages:
+  - `dplyr`, `tibble`, `lubridate` (wrangling + time features)
+  - `ggplot2`, `scales`, `gridExtra` (visualization)
+  - `caret` (splits, preprocessing)
+  - `rpart`, `randomForest`, `xgboost` (modeling)
+  - `skimr`, `PerformanceAnalytics` (profiling & correlation)
+
+---
+
+## Methodology
+
+### 1) Data Loading and Feature Engineering
+
+After loading the dataset, I extracted time features (`year`, `month`, `day`, `hour`) from `timestamp`, then removed the original timestamp from modeling features.
+
+<img src="/uploads/2024/01/Copy-of-UK-Bike-Sharing-Technical-Report-e1705914095764.jpg" alt="Technical report snippet" />
+
+### 2) Data Quality Checks
+
+I inspected missing values, verified variable types, and reviewed summary statistics before modeling.
+
+<img src="/uploads/2024/01/Image-from-_Technical-Report-page-7-4.png" alt="Missing values and dataset checks" />
+
+### 3) Exploratory Data Analysis
+
+EDA focused on:
+
+- distribution of bike rentals (`cnt`) and outliers
+- relationships with `t1`, `hum`, and `wind_speed`
+- seasonality by month and hour (rush-hour patterns)
+- categorical impacts (holiday/weekend/weather/season)
+
+<img src="/uploads/2024/01/Technical-Report-pdf.jpg" alt="EDA visuals and trends" />
+
+### 4) Feature Selection Notes
+
+Two important adjustments were made for more reliable modeling:
+
+- **Dropped `t2`** after confirming it was highly correlated with `t1` but less reliable for consistency.
+- **Excluded year 2017** due to significantly fewer observations than 2015–2016 (avoids imbalance and improves generalization).
+
+<img src="/uploads/2024/01/Screenshot-2024-01-22-at-10.08.50.png" alt="Dropping t2 and filtering year" />
+
+---
+
+## Modeling and Evaluation
+
+### Train/Test Split + Scaling
+
+The dataset was split into training and testing subsets (80/20). Numeric features were standardized where required, then recombined with categorical variables.
+
+### Models Compared
+
+1. **Linear Regression** (baseline)
+2. **Decision Tree** (`rpart`)
+3. **XGBoost** (`xgboost`)
+4. **Random Forest** (`randomForest`)
+
+### Metrics
+
+- **MSE** (Mean Squared Error)
+- **RMSE** (Root Mean Squared Error)
+- **R-squared** (explained variance)
+
+Model performance was compared **with** and **without** outliers to evaluate sensitivity to extreme demand spikes.
+
+<img src="/uploads/2024/01/Screenshot-2024-01-23-at-10.03.51.png" alt="Model comparison table" />
+<img src="/uploads/2024/01/Screenshot-2024-01-23-at-10.06.08.png" alt="Model comparison without outliers" />
+
+### Key Results
+
+- **XGBoost** delivered the strongest overall performance (lowest error, highest R²).
+- **Random Forest** was consistently competitive and robust.
+- Removing outliers improved all models, especially the ensemble methods.
+
+<img src="/uploads/2024/01/Screenshot-2024-01-23-at-10.08.41.png" alt="XGBoost feature importance" />
+
+---
+
+## Insights
+
+From both EDA and model behavior, the strongest demand drivers were:
+
+- **Time of day** (commute peaks in the morning and late afternoon)
+- **Temperature**
+- **Humidity**
+- **Season / weather condition**
+
+These signals are useful for operational planning—bike redistribution, staffing, and expected demand forecasting.
+
+---
+
+## Conclusion
+
+This project demonstrates an end-to-end machine learning workflow in **R**, applied to a real-world urban mobility dataset. By combining statistical thinking, careful preprocessing, and model benchmarking, I built predictive models capable of estimating hourly bike demand in London. Ensemble methods—especially **XGBoost**—performed best, and outlier handling proved essential for improving accuracy.
+
+---
+
+### Source Code and Resources
+
+- [London Bike Sharing dataset (.csv)](https://github.com/pouyasattari/Statistical-Data-Analysis-London-Bike-Sharing-Dataset/blob/main/london_merged.csv)
+- [Main project code (.Rmd)](https://github.com/pouyasattari/Statistical-Data-Analysis-London-Bike-Sharing-Dataset/blob/main/R%20markdown%20Project.Rmd)
+- [PDF export](https://github.com/pouyasattari/Statistical-Data-Analysis-London-Bike-Sharing-Dataset/blob/main/Project-edited.pdf)
+- [Technical report (.pdf)](https://github.com/pouyasattari/Statistical-Data-Analysis-London-Bike-Sharing-Dataset/blob/main/%20Technical%20Report.pdf)
+- [Presentation (.pdf)](https://github.com/pouyasattari/Statistical-Data-Analysis-London-Bike-Sharing-Dataset/blob/main/London%20Bike%20Sharing_Presentation.pdf)
+- [GitHub repository](https://github.com/pouyasattari/London-Bike-Sharing-Statistical-Data-Analysis-in-R)

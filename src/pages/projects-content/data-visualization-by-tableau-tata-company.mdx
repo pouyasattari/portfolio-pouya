@@ -1,0 +1,117 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+
+export const meta = {
+  author: 'Pouya Sattari',
+  date: '2024-02-22',
+  title: 'Data Visualization by Tableau/ TATA company',
+  description: 'Developing Dashboards to analyze revenue trends and regional demands to enhance strategic regional growth and forecasting.',
+}
+
+export default function Article(props) {
+  return <ArticleLayout {...props} meta={meta} />
+}
+
+## Data Visualization by Tableau/ TATA company
+
+### Developing Dashboards to analyze revenue trends and regional demands to enhance strategic regional growth and forecasting.
+
+<img src="/uploads/2024/02/Tableau_Logo.png" alt="Tableau Logo" />
+
+### Project Overview
+
+This project focuses on leveraging Tableau for advanced data visualization to analyze revenue trends and regional demands within a large enterprise, specifically for a TATA company. The primary goal is to develop interactive dashboards that provide actionable insights, enabling strategic decision-making for regional growth and accurate forecasting.
+
+### Key Objectives
+
+1.  **Revenue Trend Analysis**: Visualize historical revenue data to identify patterns, seasonality, and growth trajectories.
+2.  **Regional Demand Assessment**: Analyze sales and customer data across different regions to understand demand variations and market specifics.
+3.  **Performance Monitoring**: Create dashboards that track key performance indicators (KPIs) related to sales, revenue, and regional market share.
+4.  **Strategic Planning Support**: Provide insights that help in allocating resources, targeting marketing efforts, and planning expansion strategies more effectively.
+5.  **Forecasting**: Integrate predictive elements to forecast future revenue and demand based on historical trends and external factors.
+
+### Data Sources
+
+The project utilizes a comprehensive dataset provided by the TATA company, which includes:
+
+*   **Sales Data**: Transaction records, product quantities, sales values, discounts, and order dates.
+*   **Customer Data**: Demographics, purchase history, and regional affiliations.
+*   **Product Data**: Product categories, sub-categories, pricing, and inventory levels.
+*   **Geographical Data**: Region, state, city, and postal code information for sales and customer locations.
+*   **Time-Series Data**: Daily, weekly, monthly, and quarterly sales figures.
+
+### Tools and Technologies
+
+*   **Tableau Desktop**: For data connection, transformation, visualization, and dashboard creation.
+*   **SQL**: For initial data extraction and cleaning from the company's databases (if required).
+*   **Microsoft Excel/CSV**: For supplementary data storage and initial data preparation.
+
+### Dashboard Development
+
+The project involves creating several interconnected dashboards, each designed to address specific analytical questions:
+
+#### 1. Executive Summary Dashboard
+
+*   **Purpose**: Provide a high-level overview of overall company performance.
+*   **Visualizations**:
+    *   **Total Revenue Trend**: Line chart showing monthly/quarterly revenue over time.
+    *   **Profit Margin**: KPI card displaying the overall profit margin.
+    *   **Top N Products/Regions by Revenue**: Bar charts to quickly identify top performers.
+    *   **Geographical Sales Map**: A filled map showing revenue distribution across different regions.
+
+<img src="/uploads/2024/02/Screenshot-2024-02-02-at-03.59.02.png" alt="Executive Summary Dashboard" />
+
+#### 2. Regional Performance Dashboard
+
+*   **Purpose**: Deep dive into the performance of individual regions.
+*   **Visualizations**:
+    *   **Regional Revenue Comparison**: Bar chart comparing revenue across all regions.
+    *   **Sales by State/City**: Detailed maps or tree maps showing granular sales data.
+    *   **Regional Growth Rate**: Line charts illustrating year-over-year or quarter-over-quarter growth for each region.
+    *   **Product Category Performance by Region**: Stacked bar charts or heat maps to show which product categories perform best in which regions.
+
+<img src="/uploads/2024/02/Screenshot-2024-02-02-at-03.45.29.png" alt="Regional Performance Dashboard" />
+
+#### 3. Product Analysis Dashboard
+
+*   **Purpose**: Understand product performance and identify best-sellers or underperformers.
+*   **Visualizations**:
+    *   **Sales by Product Category/Sub-category**: Bar charts or pie charts.
+    *   **Product Profitability**: Scatter plot showing profit vs. sales quantity for individual products.
+    *   **Inventory Turnover**: KPI card for inventory efficiency.
+    *   **Customer Demographics by Product**: Segment customers based on product preferences.
+
+<img src="/uploads/2024/02/Screenshot-2024-02-02-at-03.19.09-1.png" alt="Product Analysis Dashboard 2" />
+<img src="/uploads/2024/02/Screenshot-2024-02-02-at-03.19.09.png" alt="Product Analysis Dashboard 2" />
+<img src="/uploads/2024/02/Screenshot-2024-02-02-at-03.17.58.png" alt="Product Analysis Dashboard 3" />
+
+### Methodology
+
+1.  **Data Connection**: Connect Tableau to the raw data sources (e.g., CSV files, SQL database).
+2.  **Data Preparation**:
+    *   Clean data: Handle missing values, remove duplicates, correct inconsistencies.
+    *   Transform data: Create calculated fields (e.g., profit margin, growth rate), group dimensions, and pivot data if necessary.
+    *   Join tables: Combine different data sources using appropriate keys.
+3.  **Visualization Design**:
+    *   Select appropriate chart types for each metric and dimension.
+    *   Apply best practices for visual design (e.g., color theory, clear labeling, consistent formatting).
+    *   Create interactive elements: Filters, parameters, and drill-down capabilities.
+4.  **Dashboard Assembly**:
+    *   Arrange visualizations logically on dashboards.
+    *   Add titles, text boxes, and images for context and branding.
+    *   Ensure responsiveness for different screen sizes.
+5.  **Review and Refinement**:
+    *   Gather feedback from stakeholders (e.g., sales managers, regional heads).
+    *   Iterate on designs and functionalities based on feedback.
+    *   Perform thorough testing to ensure data accuracy and dashboard performance.
+
+### Expected Outcomes
+
+*   **Enhanced Visibility**: Clear and concise visualizations of complex data.
+*   **Improved Decision-Making**: Data-driven insights for strategic planning and operational adjustments.
+*   **Proactive Problem Solving**: Early identification of declining trends or underperforming regions/products.
+*   **Efficient Resource Allocation**: Better allocation of marketing and sales resources based on regional demand.
+*   **Better Forecasting**: More accurate predictions for future business performance.
+
+### Conclusion
+
+This project demonstrates the power of Tableau in transforming raw data into meaningful and interactive insights. By focusing on revenue trends and regional demands, the dashboards developed will serve as critical tools for the TATA company to drive growth, optimize operations, and maintain a competitive edge in the market.

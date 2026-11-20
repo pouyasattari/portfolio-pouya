@@ -1,0 +1,500 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+
+export const meta = {
+  author: 'Pouya Sattari',
+  date: '2024-03-05',
+  title: 'Time Series Analysis: Colony Weight Forecast -ARIMA & PROPHET Models',
+  description: 'Explore insect colony weight dynamics with predictive modeling',
+}
+
+export default function Article(props) {
+  return <ArticleLayout {...props} meta={meta} />
+}
+
+**Introduction** (Models and Forecasting)
+
+The provided dataset represents a collection of data regarding insect colonies, most likely bees. Each row in the dataset represents a specific observation, while the columns correspond to the different features measured for each observation.
+
+The features present in the dataset include:
+
+*   Date: Represents the date on which the observation of the bee colony was made.
+*   Colony Activity: Indicates the level of activity or behavior within the bee colony. This information may include metrics such as flight frequency, nectar collection rate, or other indicators of bee activity.
+*   Dead Colony Weight: Indicates the weight of dead bee colonies found. This measurement can provide insights into the health and survival of bees within the colonies.
+*   Nest Temperature: This represents the temperature inside the bee nest. Temperature can influence various aspects of bee life, such as larval growth and honey production.
+*   Nest Humidity: Indicates the level of humidity present in the bee nest. Humidity can affect the condition and health of bees, as well as their ability to regulate temperature within the nest.
+*   Luminous Intensity: This feature represents the overall intensity of light in the bee environment. It includes red, green, blue, white, and infrared luminous intensities. Bees are sensitive to different wavelengths of light, and luminous intensity can influence their behavior.
+*   Sound Intensity: Represents the intensity of sound in the bee environment. Sound can provide important information about bee behavior, such as flight buzzing or communication signals.
+*   Nest Weight: Indicates the total weight of the bee nest. This data can be correlated with the amount of food reserves present in the colony and its overall vitality.
+
+The dataset offers the opportunity to explore and analyze the relationships between these features to deepen our understanding of bee behavior and health. The most important measurements were taken every 1-2-3 hours. Our objective is to predict the Nest Weight for the next 3 days, which, as confirmed by LASSO, is mainly dependent on weather. Therefore, we will analyze this time series without using exogenous variables. The assumption of a constant frequency is important because the ARIMA model is based on the idea that observations are correlated over time and that autocorrelation depends only on the time distance between observations. When data is sampled at different or irregular frequencies, the temporal structure of the data may not be adequately represented, and applying the ARIMA model may not be appropriate.
+
+Since the data is sampled at different or irregular frequencies, one approach could be to regularize the data, for example, using interpolation or aggregation techniques to convert the data into a constant frequency. However, this would significantly alter the original dataset, and with limited data and no information on metadata, it is difficult to determine the appropriate interpolation method or account for potential measurement errors. Therefore, we have decided to retain the irregular frequency, intuitively assessing that the error introduced is lower compared to the aforementioned issues. Lastly, there are two drops present in the dataset, which we will remove, assuming they are data points resulting from an external process (e.g., honey extraction). For the drops, I should have moved the two lower series upwards, but for simplicity of calculation, I moved the entire series to the center, as the most important thing appears to be the trend. In figures 1 and 2, the time series is represented with and without the drops.
+
+<img src="/uploads/2024/02/image-24.png" />
+
+Figure 1: Nest Weight Time Series
+
+<img src="/uploads/2024/02/image-25.png" />
+
+Figure 2: Nest Weight Scatter Time Series without drops
+
+* * *
+
+**ARIMA**
+
+**ARIMA Pre-processing:**
+
+**Decomposition:**
+
+Time series decomposition is a useful process for analyzing and understanding the different components present in a series, such as trend, seasonality, and residuals. The statsmodels library in Python provides a function called seasonal decompose to perform this decomposition.
+
+**Time series decomposition offers several advantages:**
+
+*   Trend identification: Decomposition helps identify the trend component in the series, which represents the general direction of growth or decline over time. This can provide valuable insights into any long-term changes in the series and its overall behavior.
+*   Seasonality detection: Decomposition helps identify the presence of seasonal components in the series. This is particularly useful when working with series that exhibit recurring or seasonal patterns. Decomposition can highlight the seasonal patterns present in the series, leading to a better understanding of seasonal cycles.
+*   Residual analysis: Decomposition also provides the residuals, which represent the part of the series that cannot be explained by the trend or seasonality. Analyzing the residuals is important to assess whether the ARIMA model is appropriate for the series. Ideally, the residuals should be random and not exhibit any autocorrelation structure.
+*   Forecasting: Time series decomposition can serve as a solid basis for future forecasting. Once the trend and seasonality components are identified, specific models like ARIMA or SARIMA can be used to model and forecast each component separately.
+
+For evaluating the ’period’ parameter, domain knowledge (metadata) and a sufficient amount of data are essential. Since we don’t have either of these, let’s assume that the trend of the original series is increasing (as bees producing honey might bring in external sources of nectar that increase the weight of the nest). The presence of seasonality theoretically depends heavily on the period. However, we only have data for a little over a month. However the possibility of seasonality, given the daily data, could occur within the days, which have an average of 10-15 observations per day, likely reflecting a time lag of 1-2-3 hours between observations. Therefore, I will choose this as the parameter for ’period.’
+
+We can deduce from the graphs that we have a growing and somewhat oscillatory trend, along with a somewhat ambiguous but seemingly present seasonality (as mentioned, it is daily). However, the seasonality appears to be quite noisy, likely due to irregular sampling intervals (fluctuating between 1-2-3 hours) during the day or other measurement errors, as also highlighted by the analysis of residuals representing the part that cannot be explained or modeled by the trend and seasonality components. Additionally, the residuals appear to be random and centered around zero, which is a crucial aspect for applying ARIMA in conjunction with stationarity. In Figure 3,4 there are Seasonality and Residuals
+
+* * *
+
+**ACF and PACF:**
+
+For a more precise analysis of the time series, it is advisable to use the ACF (AutoCorrelation Function) and PACF (Partial AutoCorrelation Function) plots. These plots provide information about the autocorrelation present in the series, helping us identify possible AutoRegressive (AR) and Moving Average (MA) models to use for modeling.
+
+<img src="/uploads/2024/02/image-26.png" />
+
+Figure 3: Seasonality
+
+<img src="/uploads/2024/02/image-27.png" />
+
+Figure 4: Residuals
+
+ACF represents the autocorrelation between the series and its lags, while PACF represents the partial autocorrelation that remains after removing the effect of intermediate lags’ correlations. Both plots can help identify the autocorrelation structure present in the series and determine the appropriate orders for the AR and MA terms in an AutoRegressive Integrated Moving Average (ARIMA) model.
+
+The parameters p and q are used in the ARIMA model to capture the AutoRegressive (AR) and Moving Average (MA) relationships present in a time series. These parameters define the number of lags of previous values in the series used in the model to explain current values.
+
+The parameter p represents the order of the AR, which is the number of lags of previous values in the time series to include in the ARIMA model. The value of p indicates how many periods back in the series are used to predict the current value.
+
+The parameter q represents the order of the MA, which is the number of lags of the predicted errors (residuals) of the time series to include in the ARIMA model. The value of q indicates how many periods back in the series of residuals are used to correct the current value. To calculate the values of p and q, you can use the ACF and PACF plots of the time series.
+
+The ACF plot(figure 5 )shows the autocorrelation between the values of a time series and its lags. Autocorrelation is the correlation between the series values at different lags. In the ACF plot, peaks beyond the confidence band suggest the presence of AutoRegressive relationships in the series. Therefore, the value of p is equal to the number of significant lags above the confidence band in the PACF plot.
+
+The PACF plot(figure 6) shows the partial correlation between the values of a time series and its lags, removing the effect of autocorrelations at intermediate intervals. In the PACF plot, peaks beyond the confidence band suggest the presence of Moving Average relationships in the series. Therefore, the value of q is equal to the number of significant lags above the confidence band in the ACF plot.
+
+<img src="/uploads/2024/02/image-28.png" />
+
+Figure 5: ACF
+
+* * *
+
+**Stationarity:**
+
+Once the series is differenced, it becomes stationary. In the figure, we also have the corresponding ACF(figure 7) and PACF (figure 8)plots.
+
+<img src="/uploads/2024/02/image-29.png" />
+
+Figure 6: PACF
+
+<img src="/uploads/2024/02/image-30.png" />
+
+Figure 7: Diff ACF
+
+* * *
+
+**ARIMA Model**
+
+**Introduction**
+
+When constructing an ARIMA model, there are three main components to consider: the autoregressive order (AR), the differencing order (I), and the moving average order (MA). These components
+
+define the structure of the ARIMA model and are denoted by the values p, d, and q, respectively.
+
+Autoregression (AR): The autoregressive order, indicated as p, represents the number of lagged observations used to predict the current value of the time series. The AR model implies that the current value depends linearly on one or more previous values, weighted by autoregressive coefficients. For example, an AR(1) model uses only the immediately preceding value, while an AR(2) model uses the two previous values. The order p of AR can range from 0 (no autoregression) to an arbitrary value.
+
+Differencing (I): The differencing order, indicated as d, refers to the number of times differencing is applied to the time series to make the process stationary. Differencing is used to remove trends or seasonality present in the time series. If the series exhibits a trend, first-order differencing (d=1) is usually applied. If the series also exhibits seasonality, seasonal differencing may be required. The order d can range from 0 (no differencing) to an arbitrary value.
+
+Moving Average (MA): The moving average order, indicated as q, represents the number of previous forecast errors (lagged forecast errors) used to predict the current value of the time series. The MA model implies that the current value depends linearly on previous forecast errors, weighted by the moving average coefficients. An MA(1) model uses only the immediately preceding forecast error, while an MA(2) model uses the two previous forecast errors. The order q of MA can range from 0 (no moving average) to an arbitrary value.
+
+By combining these three components (AR, I, and MA), a complete ARIMA model can be specified. For example, an ARIMA(1, 1, 1) model implies an equation that uses first-order autoregression, first-order differencing, and first-order moving average. The choice of AR, I, and MA orders depends on data analysis, the presence of trends or seasonality, and the desired forecasting quality.
+
+<img src="/uploads/2024/02/image-31.png" />
+
+Figure 8: Diff PACF
+
+* * *
+
+**AIC (Akaike Information Criterion):**
+
+AIC is a useful metric for comparing ARIMA models and other statistical models because it takes into account both the model’s fit to the observed data and the complexity of the model itself. This makes it particularly suitable for selecting the best model among various alternatives.
+
+There are several reasons why AIC is appropriate for ARIMA model comparison:
+
+Balance between fit and complexity: AIC seeks to strike a balance between the best possible fit to the data and the complexity of the model. Complexity is penalized through the term 2 * number of parameters in AIC. This means that a simpler model with fewer parameters will be favored over a more complex model, all else being equal in terms of data fit. ARIMA is a flexible model that can have different combinations of parameters, and AIC helps to choose the best combination.
+
+Selection of the best model(figure 9): AIC allows for comparing different ARIMA models with various order specifications (such as autoregressive, differencing, and moving average orders). By calculating AIC for each model, one can identify the model with the lowest AIC value, which represents the best compromise between fit and complexity. This simplifies the choice of the most appropriate ARIMA model for data analysis.
+
+Forecasting ability: While AIC is not a direct measure of forecasting ability, using AIC to select the best model can improve overall forecasting capability. Choosing a model with a lower AIC value suggests that the model is capable of fitting the data appropriately and has good generalization ability for future forecasts.
+
+Risk reduction of overfitting: AIC penalizes models with excessive parameters, reducing the risk of overfitting. Overly complex models may fit the training data too closely but could have poor generalization ability for future data.
+
+In summary, AIC is a valuable criterion for model selection in ARIMA and other statistical models. It strikes a balance between model fit and complexity, allows for comparing different models, improves forecasting capability, and helps mitigate the risk of overfitting.
+
+The “auto arima” approach in statsmodels employs automated search to select the p, d, and q parameters of the ARIMA model. The parameter selection process is based on optimization criteria such as the Akaike Information Criterion (AIC) or the Bayesian Information Criterion (BIC). The “auto arima” procedure searches a subset of possible combinations of p, d, and q orders, using a guided search strategy to find the ARIMA model with the best information criterion value. During the search, multiple iterations are performed, each with a specific combination of p, d, and q orders. The ARIMA model is fitted to the data using the specified orders in each iteration, and the AIC or BIC value is computed to measure the quality of the fit. The search algorithm compares the AIC or BIC values for each iteration and selects the ARIMA model with the lowest information criterion value. This indicates the model that best fits the data with an appropriate number of parameters, as shown in Figure 9, the parameters and their corresponding AIC values are listed.
+
+* * *
+
+**The ARIMA Model**
+
+The parameters of the model(figure 10)are:
+
+trend: Specifies the type of trend to consider in the ARIMA model. If no trend is desired, trend=None is used.
+
+start p, startd, start q: Represent the initial values for the p, d, and q parameters of the ARIMA model. These initial values are used in the search process to find the best model parameters.
+
+<img src="/uploads/2024/02/image-32.png" />
+
+Figure 9: AIC and parameters
+
+<img src="/uploads/2024/02/image-34.png" />
+
+Figure 10: Python-code of the auto-arima model
+
+*   max p, max d, maxq: Represent the maximum values for the p, d, and q parameters of the ARIMA model. These parameters define the search range for optimal values during the model selection process.
+*   m: Indicates the frequency of the time series. In the case of a non-seasonal series, it is set to m=1.
+*   seasonal: Specifies if the time series has a seasonal component. In your case, the series is non-seasonal, so it is set to seasonal=False.
+*   alpha: Represents the desired significance level for statistical tests.
+*   trace: Specifies the level of detail for tracing information during the model selection process. trace=’c’ provides concise information.
+*   stepwise: Specifies whether to use the stepwise search approach to select the best model. With stepwise=True, the selection process is performed sequentially, and models are evaluated based on information criteria such as AIC and BIC. In figures 11 and 12 we have the predictions of the model on train data. We use them to measure the **Accuracy metrics**.
+
+<img src="/uploads/2024/02/image-35.png" />
+
+Figure 11: Predictions on train diff series
+
+<img src="/uploads/2024/02/image-36.png" />
+
+Figure 12: Real Predictions on train series
+
+These are some Accuracy metrics of the model:
+
+*   ’mape’: 0.014184500871438408,
+*   ’me’: -0.43630357419138227, 13
+*   ’mae’: 0.49201503740430047,
+*   ’mpe’: -0.012498510907442419,
+*   ’rmse’: 0.647988433357537,
+*   ’acf1’: 0.9642848314009378,
+*   ’corr’: 0.9258222595994802,
+*   ’minmax’: 0.014176783137857307
+
+* * *
+
+**Predictions by ARIMA**
+
+<img src="/uploads/2024/02/image-37.png" />
+
+Figure 13: Prevision with linear regression
+
+<img src="/uploads/2024/02/image-38.png" />
+
+Figure 14: Predictions
+
+1.  angular coefficient1: [0.00867864]
+2.  angular coefficient2: [0.00686489]
+3.  angular coefficient [0.00405627]:
+
+It is worth noting that the angular coefficient tends to decrease between the first and second parts, meaning that the trend becomes more and more flat, in figure 13. Consistently, it decreases even further with the third part, which includes my predictions that follow the same trend. This is likely correlated with the length of the drop, but with limited data available, it is only a hypothesis.
+
+* * *
+
+**Model diagnostics**
+
+<img src="/uploads/2024/02/image-39.png" />
+
+Figure 15: Model Diagnostics
+
+Concerning figure 15: In the top left: the residual errors appear to fluctuate around a mean of zero and have a uniform variance. In a valid model, the residuals should be randomly distributed around zero without any obvious patterns or structures.
+
+In the top right: the density plot suggests a normal distribution with a mean of zero. Ideally, the residuals should approximately follow a normal distribution. Significant deviations from normality could indicate issues in the model.
+
+In the bottom left: all points should fall perfectly in line with the red line. Any significant deviations would imply a skewed distribution.
+
+In the bottom right: the Correlogram, also known as an ACF (Autocorrelation Function) plot, shows that the residual errors are not autocorrelated. Any autocorrelation would suggest the
+
+presence of a pattern in the residual errors that is not accounted for in the model. Therefore, you may need to consider additional predictors (X) for the model.
+
+In the density plot, the distribution of the model residuals is compared to a standard normal distribution (N(0,1)). Here’s what the components of the plot represent:
+
+KDE (Kernel Density Estimation): It is the smooth curve shown in the plot. It represents an estimate of the density of the residuals. Essentially, it shows how the residuals are distributed in the plot. If the KDE curve closely follows the standard normal distribution (N(0,1)), it indicates that the residuals are approximately normally distributed.
+
+N(0,1): It is the standard normal distribution with a mean of zero and a standard deviation of one. It is a reference distribution used to compare the distribution of the residuals.
+
+HIST: Represents the histogram of the residuals. The histogram shows the frequency at which specific values of the residuals occur. If the histogram of the residuals is similar to the standard normal distribution, it indicates that the residuals approximately follow a normal distribution.
+
+In summary, the density plot as a whole is used to assess whether the residuals of the ARIMA model follow a normal distribution. If the KDE curve is similar to the standard normal distribution and the histogram of the residuals aligns with the curve, it suggests that the residuals are approximately normally distributed, which is an important assumption for ARIMA models.
+
+The model does not exhibit any diagnostic issues.
+
+* * *
+
+**ARIMA Conclusions**
+
+The model diagnostics appear quite convincing, as does the exclusion of the two drops, which is confirmed by the correctness of the linear regression. It seems that when there is a drop, there is a decrease in the angular coefficient, which the predictions capture. Additionally, analyzing the ACF and PACF plots of the stationary series would result in a too-basic model that does not capture the fluctuations of the series, whereas auto arima does so, providing acceptable accuracy metrics. The choice of not creating regular intervals, despite ARIMA allowing for it, is justified by the fact that interpolation could introduce larger errors compared to the irregularity of the series. Finally, it should be noted that the model still has imperfections, as observed in Figure 12, but since we are forecasting data for only three days, the accuracy should be very high.
+
+* * *
+
+**Prophet Model by Facebook (Meta)**
+
+**Introduction**
+
+Prophet is an open-source library developed by Facebook designed to simplify the process of forecasting time series data.
+
+*   Prophet is extremely fast due to its implementation in Stan (statistical programming language written in C++)
+*   Models are based on additive regression, which includes non-linear trends modeled with yearly, weekly, and daily seasonality.
+*   Prophet is designed to handle missing data, shifts in the trend, and outliers.
+
+**Assumptions :**
+
+It assumes that the time series data has seasonality, which means that the patterns repeat periodically over time.
+
+*   It assumes that the time series data is stationary, which means that the statistical properties of the data do not change over time.
+*   It assumes that the time series data can be modeled using an additive model, which means that the trend, seasonality, and other components can be added together to get the overall forecast.
+
+**The model:** The Prophet forecasting model uses a decomposable time series model with three main components: trend, seasonality, and holidays. This is similar to the approach followed by Exponential Smoothing models.
+
+<img src="/uploads/2024/02/Screenshot-2024-02-20-at-22.32.32.png" />
+
+* * *
+
+*   g(t) : trend component (non-periodic changes)
+*   s(t) : seasonal component (periodic changes)
+*   h(t) : events component (also referred to as holidays)
+*   ϵ t : error term
+
+Prophet approaches forecasting as a curve-fitting exercise, which contrasts with other time series models that explicitly consider the temporal dependence structure in the data. While this approach offers some benefits, such as flexibility and ease of use, it comes with some drawbacks, such as the lack of explicit incorporation of temporal dependencies in the model. As a result, Prophet may sacrifice some of the inferential advantages of a generative model, such as an ARIMA, which can capture the complex dependence patterns in the data and may provide more accurate and reliable forecasts.
+
+Trend g(t) Trend could be defined as a Logistic or Linear model. Linear Trend:
+
+<img src="/uploads/2024/02/Screenshot-2024-02-20-at-22.33.58.png" />
+
+* * *
+
+**Time series stationarity**
+
+Stationarity is the property of exhibiting constant statistical properties (mean, variance, autocorrelation, etc.). If the mean of a time-series increases over time, then it’s not stationary.
+
+Transformations used for station arising data:
+
+*   **De-trending**: We remove the underlying trend in the series. This can be done in several ways, depending on the nature of the data :
+*   Indexed data: data measured in currencies are linked to a price index or related to inflation. Dividing the series by this index (ie deflating) element-wise is therefore the solution to de-trend the data.
+*   Non-indexed data: is it necessary to estimate if the trend is constant, linear or exponential. The first two cases are easy, for the last one it is necessary to estimate a growth rate (inflation or deflation) and apply the same method as for indexed data.
+*   **Differencing**: Seasonal or cyclical patterns can be removed by substracting periodical values.
+
+If the data is 12-month seasonal, substracting the series with a 12-lag difference series will give a “flatter” series
+
+*   **Logging**: in the case where the compound rate in the trend is not due to a price index (ie the series is not measured in a currency), logging can help linearize a series with an exponential trend (recall that log(exp(x)) = x). It does not remove an eventual trend whatsoever, unlike deflation.
+
+Plotting rolling means and variances is a first good way to visually inspect our series. If the rolling statistics exhibit a clear trend (upwards or downwards) and show varying variance (increasing or decreasing amplitude), then you might conclude that the series is very likely not to be stationary. A graphical representation of the rolling statistics for the available data can be found in Figure 16.
+
+This test is used to assess whether or not a time series is stationary. This test will return as a result in a test-statistic, based on which you can say, with different levels (or percentages) of confidence, if the time series is stationary or not.
+
+The augmented Dickey–Fuller (ADF) statistic, used in the test, is a negative number. The more negative it is, the stronger the rejection of the hypothesis that there is a unit root at some level of confidence. Results for the ADFuller test:
+
+<img src="/uploads/2024/02/Screenshot-2024-02-20-at-23.07.23.png" />
+
+Table 1: ADFuller test results
+
+We can conclude that only detrending data is mandatory to achieve stationarity.
+
+* * *
+
+**Additional Features**
+
+We opted to add more features and see if Prophet could use additional regressors to improve the forecast.
+
+Given the context of the project and hypothesises developed from the pattern found in the Exploratory Data Analysis, we opted to add the following features:
+
+*   daylight : the presence of white luminosity in the environment as a categorical variable.
+*   prcp : quantity of rain that fell during the day.
+*   day_of_retrieval : a categorical variable to point out observations during a harvest day. This was introduced to mitigate the effect of sudden drops in the DV.
+*   day_past_last_retrieval : number of days since last harvest. This was introduced to mitigate the effect of sudden drops in the DV.
+*   lag : lag feature, will be implemented later in the code.
+
+Motivation for the day_of_retrieval and day_past_last_retrieval features:
+
+our main hypotesis is that the data were produced by a smart hive linked with multiple sensor to collect data about the hive and environment. Main reason to build an hive are:
+
+*   impollination techniques in the farming context
+*   honey production
+
+<img src="/uploads/2024/02/image-40-1024x776.png" />
+
+Figure 16:  
+Upper figure: raw data  
+Middle figure: detrended data  
+Lower Figure: detrended and differenced data
+
+therefore it’s possible to justify the drops in the DV (a.k.a. ’Nest Weight’) as an effect the harvesting process. This could bring to many consideration that could be useful to improve forecasting as considering the drops as cyclical event. Or even more model the honey production with pollen distribution in the area, which peak the earlier part of spring and it’s already decreasing in April (the time window considered by out data).
+
+In the end, however, none of these considerations could be tested in a rigorous manner due to the very short window of time captured in the data (not allowing to model drops as a cyclical events) and scarcity of external data (pollen distribution in the considered area).
+
+* * *
+
+**split**
+
+**standard-like train test split**
+
+We can then define the dataframe used as a reference for the rest of the project notebook.
+
+*   a cut on the initial days due to missing data for the target DV with an irrilevan loss of datapoints.
+*   the train test split. This is executed at 95% of the available data due to a huge drop close to the latest portion of data but laso due to a very restrictive number of data.
+
+<img src="/uploads/2024/02/image-41-1024x387.png" />
+
+Figure 17: microdrop in the DV observed during the daylight time.
+
+This kind of split will be used to show how input arguments inflounce the model behaviour.
+
+**playing around with the model**
+
+We will train and compare two dirrent Prophet models, the first will be trained on the time series of the original Dependent Variable (DV) while the latter will be trained with a detrended and differenced timeseries of the DV. Figure 18 and 19 display the forecast and decomposition for both the time series and to be used as a baseline to understand how arguments change the model behaviour.
+
+<img src="/uploads/2024/02/image-42-1024x338.png" />
+
+<img src="/uploads/2024/02/image-43.png" />
+
+Figure 18: Base Prophet model on raw data.  
+The upper Figure display the forecast on the whole series, while the lower Figure display the decomposition for the trend and seasonalities
+
+<img src="/uploads/2024/02/image-44-1024x338.png" />
+
+<img src="/uploads/2024/02/image-45.png" />
+
+Figure 19: Base Prophet model on detrended and differenced data.  
+The upper Figure display the forecast on the whole series, while the lower Figure display the decomposition for the trend and seasonalities
+
+* * *
+
+**Automatic changepoint detection**
+
+Real time series frequently have abrupt changes in their trajectories. By default, Prophet will automatically detect these changepoints and will allow the trend to adapt appropriately. Prophet detects changepoints by first specifying a large number of potential changepoints (the no. of changepoints can be set using the argument n_changepoints) at which the rate is allowed to change. It then puts a sparse prior on the magnitudes of the rate changes (equivalent to L 1 regularization). This essentially means that Prophet has a large number of possible places where the rate can change, but will use as few of them as possible.
+
+By default changepoints are only inferred for the first 80% of the time series in order to have plenty of runway for projecting the trend forward and to avoid overfitting fluctuations at the end of the time series.
+
+This default setting works in many situations but not all, and can be changed using the changepoint_range argument.
+
+There are several input arguments to modify the behaviour of changepoint, for instance one could pass a list of selected changepoint.
+
+The trend component of the model should capture emerging patterns without overfitting to them. We could tweak the modeling of the the trend component with the following arguments:
+
+*   The changepoint locations, which by default are evenly spaced across 80% of the history.
+*   The strength of regularisation (changepoint_prior_scale), which determines how flexible the trend is; the default value is 0.05 and increasing this will allow the trend to fit more closely to the observed data.
+
+Figure 20 shows that missing out the latest part of the dataset and the latest drop heavily influence the trend (impact will be as heavy also on the forecast of the models). Later on we will change the changepoint_range to include detect changepoints in the latest portion of the timeseries, fixing the trend related problem highlighted in the Figure.
+
+<img src="/uploads/2024/02/image-46.png" />
+
+<img src="/uploads/2024/02/image-48.png" />
+
+Figure 20:  
+Upper Figure: Changepoints detected by the base Prophet model on raw data  
+Lower Figure: Changepoints detected by the base Prophet model on detrended and differenced data
+
+* * *
+
+**Seasonality**
+
+Seasonalities are estimated using a partial Fourier sum. For more details: the original paper, and this Wikipedia article for an illustration of how a partial Fourier sum can approximate an arbitrary periodic signal. The number of terms in the partial sum (the order) is a parameter that determines how quickly the seasonality can change.
+
+The Fourier order can be specified for each built-in seasonality when instantiating the model. Increasing the number of Fourier terms allows the seasonality to fit faster changing cycles, but can also lead to overfitting: N Fourier terms corresponds to 2N variables used for modeling the cycle.
+
+Data provided are characterized by a strong daily seasonality. Figure 21 show how the curve is reproduced.
+
+<img src="/uploads/2024/02/image-49.png" />
+
+Figure 21: Daily seasonality for the raw data modeled by a Fourier order = 2
+
+* * *
+
+**Additional regressors**
+
+The estimated β coefficient for each regressor roughly represents the increase in prediction value for a unit increase in the regressor value (note that the coefficients returned are always on the scale of the original data). Each coefficient is also returned along with a confidence interval which can help identify whether each regressor is “statistically significant”.
+
+<img src="/uploads/2024/02/Screenshot-2024-02-20-at-23.57.46-1024x243.png" />
+
+For additive regressors, the coefficient represents the incremental impact on the DV of a unit increase in the regressor.
+
+For multiplicative regressors, the incremental impact is equal to trend(t) multiplied by the coefficient.
+
+Figure 22 shows that the introduction of additional regressors have two main consequences:
+
+*   confidence intervals gain in stability
+*   overall better forecasting, especially during the drops
+
+<img src="/uploads/2024/02/image-50.png" />
+
+Figure 22: forecast for the model trained with additional regressors. Focus on the latest test days available in the dataset used as test set.
+
+* * *
+
+**Cross Validation and evaluation metrics**
+
+Details for the cross-validation were discussed in Sec.3.4.2 Again we test both the model with additional regressors trained on the raw data and the model trained on the detrended-differenced data.
+
+Figure 23 display the MAPE and MSE evaluation metrics for the model on the raw data, while the joinplot between forecast and DV values can be found in Figure 25 . Same plots were produced for the model working on differenced and detrended data and can be found in Figure 24 and 26.
+
+An graphical overview of the forecasting performance for the models can be found in Figure 27.
+
+<img src="/uploads/2024/02/Screenshot-2024-02-21-at-00.00.55-1024x338.png" />
+
+<img src="/uploads/2024/02/image-53.png" />
+
+<img src="/uploads/2024/02/image-54.png" />
+
+Figure 23: Cross-validation MAPE and MSE evaluation metric for the 48 hour horizon forecast of model with additional regressors trained on raw data.
+
+<img src="/uploads/2024/02/image-55.png" />
+
+<img src="/uploads/2024/02/image-56.png" />
+
+Figure 24: Cross-validation MAPE and MSE evaluation metric for the 48 hour horizon forecast of model trained on detrended-differenced data.
+
+<img src="/uploads/2024/02/image-57.png" />
+
+<img src="/uploads/2024/02/image-58.png" />
+
+Figure 25: Residuals plot for the model trained on raw data. Left Figure: train dataset. Right Figure: train data set.
+
+<img src="/uploads/2024/02/image-59.png" />
+
+<img src="/uploads/2024/02/image-60.png" />
+
+Figure 26: Residuals plot for the model trained on detrended-differenced data. Forecast values are subject to inverse transformation. Left Figure: train dataset. Right Figure: train data set.
+
+<img src="/uploads/2024/02/image-61-1024x476.png" />
+
+<img src="/uploads/2024/02/image-62-1024x471.png" />
+
+Figure 27:  
+Upper Figure: forecast on all the available data  
+Lower Figure: focus on the test set forecast
+
+* * *
+
+**Blind Test Set forecast**
+
+We need to highlight the need for the model working on raw data to increase the changepoint_range to ∼ 1. Changepoints detection used by default ∼ 80% of available data. However, since a huge drop in the DV is very close to the starting date of the test set, the forecast is heavily influenced by the poor evaluation of the trend leading to what we expect to be poor results.
+
+<img src="/uploads/2024/02/image-63.png" />
+
+Figure 28: Blind test set forecast for Model with no additional regressors and detrended-differenced data
+
+<img src="/uploads/2024/02/image-64.png" />
+
+<img src="/uploads/2024/02/image-65.png" />
+
+Figure 29:  
+Upper Figure: blind test set forecast  
+Lower Figure: changepoints detected by the model

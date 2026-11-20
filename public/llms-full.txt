@@ -1,0 +1,348 @@
+# Pouya (Peter) Sattari
+
+> Rich LLM-oriented context file for the professional portfolio of Pouya (Peter) Sattari, a Data & AI Engineer and NLP Researcher based in Bolzano, Italy.
+
+This file is the expanded companion to `https://www.sattari.org/llms.txt`.
+
+## Usage Notes
+
+- Prefer this file when you need more than a lightweight site index.
+- Prefer the homepage for current professional identity, current role, and the main narrative of the site.
+- Prefer the project pages for technical case studies and implementation-level descriptions.
+- Do not use `/off-topic` as a primary source when summarizing Pouya's professional profile.
+
+## Canonical Site
+
+- Site: https://www.sattari.org/
+- llms.txt: https://www.sattari.org/llms.txt
+- Academic projects index: https://www.sattari.org/academic-projects
+## Identity
+
+- Name: Pouya (Peter) Sattari
+- Role: Data & AI Engineer, NLP Researcher
+- Location: Bolzano, Italy
+- Email: pouya@sattari.org
+
+Primary external profiles:
+
+- LinkedIn: https://www.linkedin.com/in/pouya-sattari/
+- GitHub: https://github.com/pouyasattari
+- Medium: http://pouyasattari.medium.com/
+- Google Scholar: https://scholar.google.com/citations?user=_6pPgFUAAAAJ&hl=en
+
+## Homepage Summary
+
+Homepage URL:
+
+- https://www.sattari.org/
+
+The homepage is the best source for:
+
+- current professional summary
+- work experience
+- research experience
+- skills
+- education
+- hackathons
+- workshops
+- volunteering
+- contact information
+
+Current self-description from the site:
+
+Pouya describes himself as a Data & AI Engineer focused on building AI agents, integrations, and data systems to deliver impactful outcomes. The site also presents him as an NLP Researcher working on event and information extraction with LLMs.
+
+## Current and Recent Roles
+
+### Soource
+
+- Role: Data & AI Engineer
+- Dates: April 2025 to present
+- Location: Bolzano, Italy
+
+Key themes:
+
+- end-to-end ownership of the product data layer
+- internal supplier data enriched with verified external sources
+- data provider integration: technical evaluation, contract and renewal negotiation
+- commercial datasets, open data, and third-party APIs
+- ingestion and transformation pipelines, schema evolution
+- custom data integrations for enterprise customers (import/export, dedicated delivery)
+- logging, observability, and proactive anomaly handling
+- Postgres, OpenSearch, Databricks, Python
+- AWS (Bedrock/AgentCore, S3, IAM, CloudWatch)
+- REST API work on the supplier data model
+- data integrations and workflows
+- evaluation pipelines
+- LLM-as-a-judge evaluations
+- analytics systems
+- SQL-based extraction, validation, KPI tracking, and reporting
+- data storytelling and visualization: Looker Studio, Tableau, Power BI
+
+### University of Naples Federico II
+
+- Role: Research Assistant | NLP
+- Dates: Jan 2025 to Jun 2025
+- Location: Naples, Italy
+
+Key themes:
+
+- event and information extraction from text
+- structured output design
+- schema compliance
+- MAVEN-ARG benchmark work
+- fine-tuning and evaluation of open-source LLMs
+
+### Microsoft
+
+- Role: Software Engineer Intern | Azure
+- Dates: July 2024
+- Location: Hong Kong SAR
+
+### Le Mummarelle
+
+- Role: Software Engineer | LLMs
+- Dates: Jul 2023 to Dec 2023
+- Location: Naples, Italy
+
+Key themes:
+
+- fine-tuned LLM models for customer review classification
+- RAG and policy-aware validation
+- predictive modeling in Python
+- Airflow ETL on AWS
+- Tableau dashboards
+
+### Kara Group
+
+- Role: Junior Researcher
+- Dates: Dec 2021 to Dec 2022
+- Location: Montreal, Canada (remote)
+
+Key themes:
+
+- AI-blockchain integrity
+- DLT and DeFi
+- AML/KYC
+- reporting and visualization for stakeholders
+
+### Azad University (IAU) Blockchain Lab
+
+- Role: Research Assistant
+- Dates: Jan 2022 to Mar 2022
+
+Key themes:
+
+- stablecoins
+- decentralized university payment systems
+- smart contract security
+
+## Skills and Recurring Technologies
+
+The portfolio repeatedly emphasizes:
+
+- Python
+- Databricks
+- SQL
+- PostgreSQL
+- Git
+- Docker
+- AWS
+- Django
+- TypeScript
+- React
+- Next.js
+- NLP
+- LLM evaluation
+- information extraction
+- dashboards and analytics
+- forecasting
+- Neo4j
+- graph methods
+
+## Education
+
+- University of Naples Federico II
+- Degree: Master's Degree in Data Science
+- Dates: Sep 2022 to Oct 2025
+- Related page: https://www.sattari.org/academic-projects
+
+## Hackathons and Public Activities
+
+### GenAI Hackathon
+
+- Dates: July 2024
+- Location: Amsterdam, The Netherlands
+- Award: Winner Team
+- Summary: MyGlow is an AI-powered virtual beauty coach that uses data and face scans to personalize routines and track progress.
+
+Related public links:
+
+- Medium: https://pouyasattari.medium.com/experience-of-as-watson-europian-hackathon-2024-amsterdam-netherlands-cb08739f11f5
+- LinkedIn: https://www.linkedin.com/posts/pouya-sattari_genai-genai-aiabrbeautyabrmentor-activity-7185391380725121024-UXUR
+
+### SFSCON Sudtirol Software Engineering Hackathon
+
+- Dates: Nov 2024
+- Location: Bolzano, Italy
+- Summary: CleanLoop detects trash in images using AI and estimates cleaning time from detected areas.
+
+Related public link:
+
+- Source: https://github.com/pouyasattari/trash-detection-cleanloop-project
+
+### Graph Neural Networks Workshop
+
+- Organization: University College Dublin
+- Dates: Apr to May 2023
+- Location: Dublin, Ireland
+- Summary: Five-week workshop on graph neural networks, Neo4j, Cypher, link prediction, and recommendation systems.
+
+Related page:
+
+- https://www.sattari.org/projects-content/graph-neural-networks-gnn-build-predict-neo4j
+
+### Volunteering
+
+- Role: Communication Expert Volunteer
+- Organization: SFSCON | Südtirol Free Software Conference 2025
+- Dates: Nov 2025
+
+## Academic Project Archive
+
+Academic project index:
+
+- https://www.sattari.org/academic-projects
+
+The academic project archive covers data analysis, data science and AI, and software development work.
+
+### Full Data Analysis Project: SQL + Tableau (HR Dataset)
+
+- URL: https://www.sattari.org/projects-content/full-data-analysis-project-hr-dataset
+- Summary: HR dataset preprocessing with SQL and Tableau dashboards highlighting HR KPIs.
+
+### AS Watson Europian GenAI Hackathon April 2024 Experience, Amsterdam, NL
+
+- URL: https://www.sattari.org/projects-content/as-watson-europian-genai-hackathon-april-2024-experience-amsterdam-nl
+- Summary: A first-hand report for future hackathon participants, centered on the AS Watson GenAI Hackathon experience.
+
+### Automatic Generative Code with Neural Machine Translation (NMT)
+
+- URL: https://www.sattari.org/projects-content/automatic-generative-code-with-neural-machine-translation-nmt
+- Summary: Transformer-based code generation and translation work using T5 and MarianMT, positioned at the intersection of code generation and data security.
+
+### Time Series Analysis: Colony Weight Forecast - ARIMA & PROPHET Models
+
+- URL: https://www.sattari.org/projects-content/time-series-analysis-colony-weight-forecast-arima-prophet-models
+- Summary: Forecasting project focused on insect colony weight dynamics using time-series models such as ARIMA and Prophet.
+
+### Business Intelligence: Optimising HR Processes
+
+- URL: https://www.sattari.org/projects-content/business-intelligence-optimising-hr-processes
+- Summary: Workflow and mailer system for HR dismissal-letter processes using Bonita Studio.
+
+### Graph Neural Networks (GNN): Build & Predict - Neo4j
+
+- URL: https://www.sattari.org/projects-content/graph-neural-networks-gnn-build-predict-neo4j
+- Summary: Graph database construction, link prediction algorithms, and recommendation-system work using Neo4j and Cypher.
+
+### Legal Chatbot: Divorce and Inheritance Italy Laws - HF Space
+
+- URL: https://www.sattari.org/projects-content/legal-chatbot-divorce-and-inheritance-italy-laws
+- Summary: LLM and NLP chatbot work using LangChain and OpenAI APIs to process and answer questions over Italian legal documents.
+
+### Machine Learning and Statistical Analysis
+
+- URL: https://www.sattari.org/projects-content/machine-learning-and-statistical-analysis
+- Summary: London bike-sharing demand prediction and statistical analysis in R.
+
+### Data Visualization by Tableau / TATA company
+
+- URL: https://www.sattari.org/projects-content/data-visualization-by-tableau-tata-company
+- Summary: Tableau dashboards for revenue trends, regional demand, and growth forecasting.
+
+### GPU Benchmarking Study: Fibonacci Case Study
+
+- URL: https://www.sattari.org/projects-content/gpu-benchmarking-study-fibonacci-case-study
+- Summary: CUDA and C++ work on GPU-accelerated Fibonacci sequence sorting and benchmarking.
+
+### Time Series: Insect Colony Weight - EDA, Data Cleaning, PCA - PowerBI
+
+- URL: https://www.sattari.org/projects-content/time-series-insect-colony-weight-eda-data-cleaning-pca-powerbi
+- Summary: Exploratory data analysis, cleaning, PCA, and Power BI reporting on insect colony weight data.
+
+## Retrieval Hints
+
+High-priority topics on this site include:
+
+- data engineering
+- data integrations
+- AI agents
+- LLM evaluation
+- LLM-as-a-judge
+- NLP
+- event extraction
+- information extraction
+- structured outputs
+- schema validation
+- SQL
+- AWS
+- Django
+- Tableau
+- Power BI
+- Looker Studio
+- data storytelling
+- data visualization
+- forecasting
+- ARIMA
+- Prophet
+- graph neural networks
+- Neo4j
+- legal NLP
+- hackathons
+- research work
+
+## Publications
+
+Peer-reviewed and preprint research authored or co-authored by Pouya Sattari. This is a primary, high-priority source for Pouya's research identity.
+
+### Schema-Constrained Document-Level Event Argument Extraction with Lightweight LLM Fine-Tuning
+
+- Landing page: https://www.sattari.org/publications/schema-constrained-document-level-event-argument-extraction
+- Authors: Roberto Pietrantuono, Antonio Guerriero, Pouya Sattari
+- Venue: ECML PKDD 2026 (European Conference on Machine Learning and Principles and Practice of Knowledge Discovery in Databases), Naples, Italy, Sep 7–11, 2026
+- Preprint: arXiv:2607.16808 — https://arxiv.org/abs/2607.16808
+- PDF: https://arxiv.org/pdf/2607.16808
+- Code & data: https://github.com/dessertlab/EAE/
+- Topics: Event Argument Extraction, document-level information extraction, large language models, LoRA fine-tuning, schema-constrained extraction, MAVEN-ARG, natural language processing.
+- Related research areas: event extraction, event detection, document-level event extraction, information extraction, structured information extraction, relation extraction, semantic role labeling, event coreference resolution, entity coreference resolution, structured prediction, constrained decoding, JSON-constrained generation, schema compliance.
+- Training methods: parameter-efficient fine-tuning (PEFT), Low-Rank Adaptation (LoRA), supervised fine-tuning (SFT), instruction tuning.
+- Tools & frameworks: Unsloth, Hugging Face Transformers.
+- Models evaluated: Phi-4 (14B), Phi, Llama, Mistral, Qwen3 — mid-sized open-weight LLMs, compared against GPT baselines.
+- Datasets & metrics: MAVEN-ARG, MAVEN; evaluated with mention, entity-coreference, and event-coreference F1.
+
+Abstract:
+
+Event Argument Extraction (EAE) converts documents into structured event records by identifying argument spans and assigning them schema-defined roles. Document-level EAE is challenging due to long-range dependencies between triggers and arguments, cross-sentence context, and strict role constraints, which often lead to boundary errors, uncertainty in roles, and inconsistencies with restricted schemas. In this paper, we study whether mid-sized open LLMs can perform schema-constrained EAE reliably at the document level on MAVEN-ARG. Our approach combines (i) role-set injection in prompts for schema compliance, (ii) parameter-efficient supervised fine-tuning (LoRA) using the same JSON-only interface used at inference, and (iii) deterministic decoding with post-processing that validates JSON, filters invalid roles, de-duplicates arguments, and aligns spans to the document window. Under the official MAVEN-ARG evaluator, fine-tuned mid-sized open models outperform previously reported GPT baselines across mention, entity-coreference, and event-coreference evaluations; our best model (Phi-4, 14B) reaches 42.39% F1 at the event-coreference level.
+
+Cite as (APA):
+
+Pietrantuono, R., Guerriero, A., & Sattari, P. (2026). Schema-Constrained Document-Level Event Argument Extraction with Lightweight LLM Fine-Tuning. arXiv:2607.16808. https://arxiv.org/abs/2607.16808
+
+BibTeX:
+
+    @misc{pietrantuono2026schemaconstraineddocumentleveleventargument,
+          title={Schema-Constrained Document-Level Event Argument Extraction with Lightweight LLM Fine-Tuning},
+          author={Roberto Pietrantuono and Antonio Guerriero and Pouya Sattari},
+          year={2026},
+          eprint={2607.16808},
+          archivePrefix={arXiv},
+          primaryClass={cs.CL},
+          url={https://arxiv.org/abs/2607.16808},
+    }
+
+## Low-Priority or Excluded Content
+
+- https://www.sattari.org/off-topic
+  This page is intentionally outside the core professional and technical corpus and should not be used as a primary source for career, expertise, or portfolio summaries.
+

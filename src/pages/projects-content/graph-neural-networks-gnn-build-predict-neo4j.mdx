@@ -1,0 +1,246 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+
+export const meta = {
+  author: 'Pouya Sattari',
+  date: '2024-01-31',
+  title: 'Graph Neural Networks (GNN)',
+  description: 'Graph Neural Networks (GNN): Build & Predict - Neo4j',
+}
+
+export default function Article(props) {
+  return <ArticleLayout {...props} meta={meta} />
+}
+
+## Graph Neural Networks (GNN): Build & Predict -Neo4j
+
+<img src="/uploads/2024/02/ScreenRecording2024-02-08at03.17.20-ezgif.com-video-to-gif-converter-1-copy-3.gif" alt="Neo4j Graph Demo" />
+
+### Introduction
+
+This blog covers the culminating project of our five-week workshop on **Graph Convolutional Networks**, a niche within **graph-based machine learning**.
+
+We began with Graph Neural Networks (GNNs) fundamentals, leveraging tools like the **Neo4j** graph database and Python. This equipped me with the skills to construct and analyze graph data efficiently.
+
+Moreover, the curriculum included topics on **topological link prediction** and creating a **recommendation system**.
+
+Below, I detail the process of establishing a graph-based database using Neo4j and Cypher Queries, followed by the application of predictive algorithms like **Adamic Adar, Common Neighbors, Preferential Attachment, Resource Allocation, Same Community, Total Neighbors,** to forecast relationships, and how to compile the outcomes into a CSV file.
+
+---
+
+### Creating Graph Database in Neo4j
+
+Cypher
+
+```
+// Person nodes
+CREATE (alice:Person {name: 'Alice', gender: 'Female', age: 30, bornIn: 'New York'}),
+       (bob:Person {name: 'Bob', gender: 'Male', age: 32, bornIn: 'London'}),
+       (carol:Person {name: 'Carol', gender: 'Female', age: 25, bornIn: 'Sydney'}),
+       (dave:Person {name: 'Dave', gender: 'Male', age: 28, bornIn: 'Toronto'}),
+       (eve:Person {name: 'Eve', gender: 'Female', age: 22, bornIn: 'Paris'}),
+       (frank:Person {name: 'Frank', gender: 'Male', age: 35, bornIn: 'Berlin'}),
+       (grace:Person {name: 'Grace', gender: 'Female', age: 29, bornIn: 'Tokyo'}),
+       (hank:Person {name: 'Hank', gender: 'Male', age: 40, bornIn: 'Cape Town'}),
+       (irene:Person {name: 'Irene', gender: 'Female', age: 24, bornIn: 'Moscow'}),
+       (jack:Person {name: 'Jack', gender: 'Male', age: 27, bornIn: 'Rio de Janeiro'})
+
+// Pets
+CREATE (rocky:Pet {name: 'Rocky', species: 'Dog', breed: 'Golden Retriever'}),
+       (bella:Pet {name: 'Bella', species: 'Cat', breed: 'Siamese'}),
+       (max:Pet {name: 'Max', species: 'Parrot', breed: 'Macaw'}),
+       (lucy:Pet {name: 'Lucy', species: 'Rabbit', breed: 'Holland Lop'})
+
+// Products
+CREATE (smartphone:Product {name: 'Smartphone', brand: 'TechBrand'}),
+       (laptop:Product {name: 'Laptop', brand: 'CompTech'}),
+       (book:Product {name: 'Book', title: 'The Great Adventure'})
+
+// Activities
+CREATE (jogging:Activity {name: 'Jogging', fact: 'Can increase lifespan by 3 years'}),
+       (painting:Activity {name: 'Painting', fact: 'Improves mental health and creativity'}),
+       (cooking:Activity {name: 'Cooking', fact: 'Is a form of therapeutic art'})
+
+// relationships
+CREATE (alice)-[:MARRIED_TO {MarriedOn: '2020-02-25'}]->(bob),
+       (bob)-[:DIVORCED_FROM {DivorcedOn: '2023-09-02'}]->(alice),
+       (carol)-[:SURPRISED]->(dave),
+       (eve)-[:OWNS]->(rocky),
+       (frank)-[:OWNS]->(bella),
+       (grace)-[:OWNS]->(max),
+       (hank)-[:OWNS]->(lucy),
+       (irene)-[:FRIENDS_WITH {since: '2021-09-19'}]->(jack),
+       (jack)-[:MARRIED_TO]->(irene),
+       (alice)-[:BOUGHT]->(smartphone),
+       (bob)-[:BOUGHT]->(laptop),
+       (carol)-[:READS]->(book),
+       (dave)-[:PARTICIPATES_IN]->(jogging),
+       (eve)-[:PRACTICES]->(painting),
+       (frank)-[:ENJOYS]->(cooking),
+       (grace)-[:USES]->(smartphone),
+       (hank)-[:WORKS_ON]->(laptop),
+       (irene)-[:STUDIES]->(book),
+       (jack)-[:EXERCISES_WITH]->(jogging),
+       (max)-[:CARED_FOR_BY]->(grace),
+       (lucy)-[:PLAYS_WITH]->(jack),
+       (laptop)-[:NEEDED_FOR]->(cooking),
+       (jogging)-[:LIKED_BY]->(hank),
+       (painting)-[:CHOSEN_BY]->(carol),
+       (cooking)-[:LEARNED_BY]->(alice),
+       (hank)-[:FRIENDS_WITH]->(jack)
+RETURN *
+```
+
+View Full Code
+
+#### Creating Person Nodes
+
+I start by creating several person nodes, each defined with attributes such as name, gender, age, and place of birth. These nodes represent individuals like Alice, Bob, Carol, and others.
+
+#### Adding Pet Nodes
+
+Next, I define pet nodes with details such as name, species, and breed, including pets like Rocky (a dog), Bella (a cat), and others.
+
+#### Listing Product Nodes
+
+I also create product nodes to represent items like a Smartphone, Laptop, and a Book, each with specific characteristics like brand or title.
+
+#### Establishing Activity Nodes
+
+I then introduce activity nodes representing various activities, such as Jogging, Painting, and Cooking, with attributes highlighting certain facts about each activity.
+
+#### Forming Relationships
+
+Afterward, I establish relationships between these nodes with specific types and properties. For example:
+
+*   I connect Alice and Bob through marital and later divorce relationships.
+*   I illustrate ownership relationships between people and pets (e.g., Eve owns Rocky).
+*   I detail friendships, work relations, and recreational activities (e.g., Irene is friends with Jack, Hank works on a laptop, and Frank enjoys cooking).
+*   I link people to products or activities (e.g., Alice bought a smartphone, Carol reads a book, and Dave participates in jogging).
+
+These relationships often come with additional properties, like dates for marriages or friendships, showing not just the type of relationship but also the important details of that relationship.
+
+---
+
+### Visualizing the Graph
+
+Finally, I use **`match (n) return n`** command to display all the nodes I’ve created and their relationships, effectively visualizing the entire graph I’ve constructed through the above commands.
+
+This process helps me build a rich, interconnected graph that models complex relationships between people, their interests, possessions, and activities, demonstrating the capabilities of graph databases in representing and querying relational data from my perspective.
+
+This is the result:
+
+<img src="/uploads/2024/02/Screenshot-2024-02-08-at-03.19.22-1024x640.png" alt="Neo4j Result Graph" />
+
+---
+
+### Topological link prediction algorithms:
+
+[Adamic-Adar Algorithm](https://neo4j.com/docs/graph-data-science/current/alpha-algorithms/adamic-adar/):
+
+The Adamic Adar algorithm was introduced in 2003 by Lada Adamic and Eytan Adar to [predict links in a social network](https://www.semanticscholar.org/paper/Friends-and-neighbors-on-the-Web-Adamic-Adar/39348c10c90be968357e2a6b65d5e0e479307735). It is computed using the following formula:
+
+<img src="/uploads/2024/02/image-1.png" alt="Adamic Adar Formula" />
+
+where `N(u)` is the set of nodes adjacent to `u`.
+
+A value of 0 indicates that two nodes are not close, while higher values indicate nodes are closer.
+
+The library contains a function to calculate the closeness between two nodes.
+
+[Common Neighbors](https://neo4j.com/docs/graph-data-science/current/alpha-algorithms/common-neighbors/):
+
+Common neighbors capture the idea that two strangers who have a friend in common are more likely to be introduced than those who don’t have any friends in common.
+
+It is computed using the following formula:
+
+<img src="/uploads/2024/02/image-2.png" alt="Common Neighbors Formula" />
+
+where `N(x)` is the set of nodes adjacent to the node x, and N(y) is the set of nodes adjacent to the node `y`.
+
+A value of 0 indicates that two nodes are not close, while higher values indicate nodes are closer.
+
+The library contains a function to calculate the closeness between two nodes.
+
+[Preferential Attachment](https://neo4j.com/docs/graph-data-science/current/alpha-algorithms/preferential-attachment/):
+
+Preferential Attachment is a measure used to compute the closeness of nodes, based on their shared neighbors.
+
+Preferential attachment means that the more connected a node is, the more likely it is to receive new links. This algorithm was popularised by [Albert-László Barabási and Réka Albert](https://en.wikipedia.org/wiki/Barab%C3%A1si%E2%80%93Albert_model) through their work on scale-free networks. It is computed using the following formula:
+
+<img src="/uploads/2024/02/image-3.png" alt="Preferential Attachment Formula" />
+
+where `N(u)` is the set of nodes adjacent to `u`.
+
+A value of 0 indicates that two nodes are not close, while higher values indicate that nodes are closer.
+
+The library contains a function to calculate the closeness between two nodes.
+
+[Resource Allocation](https://neo4j.com/docs/graph-data-science/current/alpha-algorithms/resource-allocation/):
+
+[Resource Allocation](https://arxiv.org/pdf/0901.0553.pdf) is a measure used to compute the closeness of nodes based on their shared neighbors.
+
+The Resource Allocation algorithm was introduced in 2009 by Tao Zhou, Linyuan Lü, and Yi-Cheng Zhang as part of a study to predict links in various networks. It is computed using the following formula:
+
+<img src="/uploads/2024/02/image-4.png" alt="Resource Allocation Formula" />
+
+where `N(u)` is the set of nodes adjacent to `u`.
+
+A value of 0 indicates that two nodes are not close, while higher values indicate nodes are closer.
+
+The library contains a function to calculate the closeness between two nodes.
+
+[Same Community](https://neo4j.com/docs/graph-data-science/current/alpha-algorithms/same-community/):
+
+Same Community is a way of determining whether two nodes belong to the same community. These communities could be computed by using one of the [Community detection](https://neo4j.com/docs/graph-data-science/current/algorithms/community/).
+
+If two nodes belong to the same community, there is a greater likelihood that there will be a relationship between them in future, if there isn’t already.
+
+A value of 0 indicates that two nodes are not in the same community. A value of 1 indicates that two nodes are in the same community.
+
+The library contains a function to calculate closeness between two nodes.
+
+[Total Neighbors](https://neo4j.com/docs/graph-data-science/current/alpha-algorithms/total-neighbors/):
+
+Total Neighbors computes the closeness of nodes, based on the number of unique neighbors that they have. It is based on the idea that the more connected a node is, the more likely it is to receive new links.
+
+Total Neighbors is computed using the following formula:
+
+<img src="/uploads/2024/02/total-neighbors.svg" alt="Total Neighbors Formula" />
+
+where `N(x)` is the set of nodes adjacent to `x`, and `N(y)` is the set of nodes adjacent to `y`.
+
+A value of 0 indicates that two nodes are not close, while higher values indicate nodes are closer.
+
+The library contains a function to calculate the closeness between two nodes.
+
+---
+
+### Let’s Run all link prediction algorithms in one Query:
+
+Cypher
+
+```
+MATCH (p1:Person {name: 'Hank'}), (p2:Person {name: 'Jack'})
+WITH p1, p2
+RETURN 
+    gds.alpha.linkprediction.adamicAdar(p1, p2) AS AdamicAdar,
+    gds.alpha.linkprediction.commonNeighbors(p1, p2) AS CommonNeighbors,
+    gds.alpha.linkprediction.preferentialAttachment(p1, p2) AS PreferentialAttachment,
+    gds.alpha.linkprediction.resourceAllocation(p1, p2) AS ResourceAllocation,
+    gds.alpha.linkprediction.sameCommunity(p1, p2) AS SameCommunity,
+    gds.alpha.linkprediction.totalNeighbors(p1, p2) AS TotalNeighbors
+```
+
+Result:
+
+<img src="/uploads/2024/02/Screenshot-2024-02-08-at-03.36.24-1024x416.png" alt="Link Prediction Results" />
+
+---
+
+### Remind that the source codes can be found in the corresponding GitHub repository, Or you can access them below :
+
+**Database Creation Query** _[(.cypher)](https://github.com/pouyasattari/Graph-Link-Prediction-algorithms-by-Cypher-Query-in-Neo4j/blob/main/Database%20Creation%20Query.cypher)_  
+**Link prediction algorithms Query** _[(.cypher)](https://github.com/pouyasattari/Graph-Link-Prediction-algorithms-by-Cypher-Query-in-Neo4j/blob/main/link%20prediction%20algorithms%20Query.cypher)_  
+**Link prediction Algorithms RESULT** _[(.csv)](https://github.com/pouyasattari/Graph-Link-Prediction-algorithms-by-Cypher-Query-in-Neo4j/blob/main/link%20prediction%20Algorithms%20RESULT.csv)_
+
+[GitHub Repository](https://github.com/pouyasattari/Graph-Link-Prediction-algorithms-by-Cypher-Query-in-Neo4j)

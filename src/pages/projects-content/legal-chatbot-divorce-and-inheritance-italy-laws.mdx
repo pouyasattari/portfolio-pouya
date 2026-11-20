@@ -1,0 +1,157 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+
+export const meta = {
+  author: 'Pouya Sattari',
+  date: '2024-02-01',
+  title: 'Legal Chatbot: Divorce and Inheritance Italy Laws – HF Space',
+  description: 'LLM + NLP: Chatbot using LangChain with OpenAI’s API to process legal documents',
+}
+
+export default function Article(props) {
+  return <ArticleLayout {...props} meta={meta} />
+}
+
+## Legal Chatbot: Divorce and Inheritance Italy Laws – HF Space
+
+### LLM + NLP: Chatbot using LangChain with OpenAI’s API to process legal documents
+
+<img src="/uploads/2024/02/Screenshot-2024-01-31-at-16.08.37-edited-1.png" alt="Legal Chatbot Demo" />
+
+### Introduction
+
+The rise of Large Language Models (LLMs) is transforming how people access legal information online — especially in **specific legal domains** and within a **particular jurisdiction**. This project demonstrates how to build a **legal chatbot** focused on **Italian divorce and inheritance law**, making legal guidance easier to understand and more accessible through a clean and interactive interface.
+
+This chatbot is built using **Python**, **Streamlit**, and **LangChain**, powered by **OpenAI’s LLMs** (initially `gpt-3.5-turbo`, later upgraded to `gpt-4o-mini`). It processes complex legal documents into structured, searchable knowledge and generates context-aware answers grounded directly in the source texts.
+
+👉 You can try the app here:  
+**[Legal Chatbot on HuggingFace Spaces](https://sattari-legal-chat-bot.hf.space/)**
+
+---
+
+### How the Legal Bot Operates (RAG Workflow)
+
+This chatbot follows a **Retrieval-Augmented Generation (RAG)** architecture, combining document search + LLM response generation.
+
+#### Step 1: Ingestion (Indexing)
+
+The legal documents are prepared into a searchable index (vector store):
+
+- Load the legal documents
+- Split them into smaller chunks (articles / sections)
+- Generate embeddings for each chunk
+- Store embeddings into a vector database (**ChromaDB**)
+
+#### Step 2: Generation (Answering)
+
+When a user asks a question:
+
+- The query is embedded
+- Similar chunks are retrieved from the vector database
+- The LLM receives: **question + retrieved context**
+- The chatbot generates a grounded answer based on the documents
+
+---
+
+### App Overview
+
+When the app launches, LangChain processes two legal documents:
+
+- `DIVISION OF ASSETS AFTER DIVORCE.txt`
+- `INHERITANCE.txt`
+
+They are stored inside the project’s `./data/` folder, then indexed into a persistent ChromaDB directory:
+
+- `./docs/chroma`
+
+When the user asks a question, the bot retrieves the most relevant legal content and answers with context-aware responses.
+
+<img src="/uploads/2024/02/IMG_7204-23.png" alt="App Architecture Overview" />
+
+---
+
+### Deployment via HuggingFace Spaces
+
+This project is deployed on **HuggingFace Spaces** using the **Streamlit stack**, making it easy to share publicly and run without local setup.
+
+A key reason for choosing HuggingFace Spaces over GitHub Pages was handling large files — particularly ChromaDB persistence folders — without Git LFS complexity.
+
+- App: **[HF Space](https://sattari-legal-chat-bot.hf.space)**
+- Code: **[HF Repo File](https://huggingface.co/spaces/sattari/legal-chat-bot/blob/main/LegalBot.py)**  
+- ✅ Note: Code was updated in **October 2024** to upgrade the model to `gpt-4o-mini`.
+
+<img src="/uploads/2024/02/thumbnail.png" alt="HuggingFace Streamlit Space" />
+
+---
+
+## Implementation Highlights
+
+### File Structure
+
+This application follows HuggingFace + Streamlit standards:
+
+- `README.md` → Space config  
+- `requirements.txt` → Dependencies  
+- `LegalBot.py` → Main chatbot script  
+- `data/` → Two legal documents  
+- `docs/chroma/` → Persistent vector database  
+
+<img src="/uploads/2024/02/Screenshot-2024-02-01-at-18.39.45.png" alt="Project File Structure" />
+
+---
+
+### Core Features
+
+✅ **Legal document chunking** (`law_content_splitter`)  
+✅ **Embeddings + Vector store (ChromaDB)**  
+✅ **RetrievalQA pipeline** for grounded answers  
+✅ **Prompt engineering** for domain-specific behavior  
+✅ **Tools routing** between Divorce vs Inheritance  
+✅ **Memory** (`ConversationBufferMemory`) for conversational continuity  
+✅ **Greeting detection** for a human-friendly UX  
+✅ Streamlit UI with message history and prompt examples
+
+---
+
+### Example Interaction
+
+**Question:**  
+“When can coheirs apply for division, especially if there are minors involved?”
+
+<img
+  src="/uploads/2024/01/Screen_Recording_2024-01-31_at_16_06_49_AdobeExpress-ezgif.com-video-to-gif-converter.gif"
+  alt="Chatbot Example Interaction"
+/>
+
+---
+
+## Deploying Your Own Version
+
+To deploy a similar chatbot on HuggingFace Spaces:
+
+1. Create a new Space on HuggingFace
+2. Select **Streamlit** as SDK
+3. Make it public
+4. Upload your files (`app.py` or `LegalBot.py`, `requirements.txt`, docs, vector store)
+5. Add your OpenAI API key in **HF Secrets**
+6. Click the **App** tab and run 🎉
+
+<img src="/uploads/2024/02/Screenshot-2024-02-02-at-03.59.02.png" alt="Deploying on HuggingFace Spaces" />
+
+---
+
+## Wrapping Up
+
+This project demonstrates how modern NLP frameworks like **LangChain**, paired with OpenAI models, can transform large legal texts into an interactive assistant that provides fast, structured, and contextual legal guidance.
+
+While the chatbot is designed for **informational support**, it does **not replace a qualified lawyer** — especially for nuanced case-specific decisions.
+
+---
+
+### Source Codes & Resources
+
+- **[HuggingFace Space](https://huggingface.co/spaces/sattari/legal-chat-bot/tree/main)**
+- **[LegalBot.py](https://huggingface.co/spaces/sattari/legal-chat-bot/blob/main/LegalBot.py)** – Main Code  
+- **[README.md](https://huggingface.co/spaces/sattari/legal-chat-bot/blob/main/README.md)**  
+- **[requirements.txt](https://huggingface.co/spaces/sattari/legal-chat-bot/blob/main/requirements.txt)**  
+- **[docs/](https://huggingface.co/spaces/sattari/legal-chat-bot/tree/main/docs)** – ChromaDB directory  
+- **[data/](https://huggingface.co/spaces/sattari/legal-chat-bot/tree/main/data)** – Legal text corpus

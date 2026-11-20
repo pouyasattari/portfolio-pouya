@@ -1,0 +1,152 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+
+export const meta = {
+  author: 'Pouya Sattari',
+  date: '2024-03-05',
+  title: 'Automatic Generative Code with Neural Machine Translation (NMT)',
+  description: 'Transformers, including the T5 and MarianMT, enabled effective understanding and generating complex programming codes. Let’s see how!',
+}
+
+export default function Article(props) {
+  return <ArticleLayout {...props} meta={meta} />
+}
+
+**Introduction**
+
+In our project, “Automatic Generative Code with Neural Machine Translation for Data Security Purposes,” we use the [T5 Transformer](https://huggingface.co/docs/transformers/model_doc/t5) and [MarianMT](https://huggingface.co/docs/transformers/model_doc/marian) model. Our dataset comes from the violent-python repository, containing Python code from offensive software and plain English descriptions. This dataset helps us train the model to translate both English Commands to Code snippets.
+
+We then fine-tune the model to create code automatically, focusing on data security. This work sits at the crossroads of Neural Machine Translation and code creation, contributing to simpler and safer software development.
+
+**Violent-python Dataset**
+
+<img src="/uploads/2024/03/Dataset-1024x532.png" />
+
+The `violent-python dataset`, meticulously curated from T.J. O’Connor’s “Violent Python” book, presents a collection of Python code from offensive software, each paired with a corresponding plain English description. Covering diverse areas of offensive security, such as penetration testing, forensic analysis, network traffic analysis, and OSINT, the dataset mirrors examples from the book, including exploits, forensic tools, network analysis, and social engineering techniques.
+
+With a total of 1,372 samples, the dataset is structured into three subsets: Individual Lines (1,129 pairs), Multi-line Blocks (171 pairs), and Functions (72 pairs). Notably, data security considerations are paramount, given the sensitive nature of offensive programs, emphasizing the need for robust security practices during both dataset curation and model training.
+
+**You can find the Dataset on this [GitHub Repository](https://github.com/pouyasattari/violent-python) which is Forked from [DESSERT Research Lab Github](https://github.com/dessertlab)**
+
+* * *
+
+**Transformers**
+
+Transformers, including the T5 model and MarianMT we employ, revolutionize machine learning with attention mechanisms and Self-attention. These mechanisms enable the effective capture of contextual information, essential for understanding and generating complex programming structures.
+
+In our project, encoding captures input code patterns, while decoding generates coherent and syntactically correct code snippets. This architecture enhances our model’s ability to automate code generation while addressing data security concerns.
+
+<img src="/uploads/2024/03/Transformer-Architecture-1024x835.png" />
+
+* * *
+
+**T5 TRANSFORMER MODEL**
+
+T5 is an encoder-decoder model pre-trained on a multi-task mixture of unsupervised and supervised tasks and for which each task is converted into a text-to-text format. T5 works well on a variety of tasks out-of-the-box by prepending a different prefix to the input corresponding to each task.
+
+T5 comes in different sizes: t5-small, t5-base, t5-large, t5-3b, t5-11b.
+
+<img src="/uploads/2024/03/T5-1024x457.png" />
+
+* * *
+
+**MarianMt**
+
+MarianMT, crafted by Microsoft, stands out as a transformer-based architecture tailored for machine translation. With a sharp focus on multilingual translation tasks, it excels in accurately translating text across different languages. This specialization positions MarianMT as a powerful tool for enhancing language-related applications and advancing the field of machine translation.
+
+* * *
+
+**key distinctions between T5 and MarianMT**
+
+**T5 Architecture:**
+
+**MarianMT Architecture:**
+
+– Developed by Google.  
+– General-purpose text-to-text model.  
+– Frames all NLP tasks as converting input text to target text.  
+– Designed for a wide range of natural language processing tasks.  
+– Capable of handling tasks like summarization, translation, and question-answering within a unified framework.
+
+– Developed by the language technology research group at Microsoft.  
+– Specifically designed for machine translation tasks.  
+– Tailored for optimizing translation performance.  
+– Focuses on the task of translating text from one language to another.  
+– Specialized in multilingual machine translation and supports various language pairs.
+
+* * *
+
+**DATA COLLECTION AND PREPROCESSING**
+
+In the data preprocessing phase, we carefully curated the violent-python dataset, aligning with ethical considerations for offensive programs. With 1,372 samples structured into three subsets, we prioritized data security. Shuffling the data further ensured robust training by minimizing biases associated with the original order. This strategic preprocessing laid the foundation for training a resilient automatic code generation model.
+
+* * *
+
+**ZERO-SHOT CLASSIFICATION**
+
+In preparation for training, we initialized the tokenizer and model using our model, configuring the system for GPU or CPU usage as specified.
+
+The focus of this initial phase is to assess the model’s baseline performance without fine-tuning. Through a series of zero-shot classifications, we aim to evaluate the model’s capability to achieve our predefined objectives.
+
+This approach allows us to gauge the model’s inherent strengths and weaknesses on generic examples before any specific training modifications are applied, providing a valuable benchmark for subsequent optimization efforts.
+
+<img src="/uploads/2024/03/Image-from-Presentation-Data-Security-page-8-1024x592.png" />
+
+* * *
+
+**GENERIC PURPOSE**
+
+In this context, the Python code and accompanying instructions showcase the model’s capability to generate code for general programming purposes.
+
+Utilizing a pre-trained language model and tokenizer, the code accurately responds to instructions like adding two numbers, defining a main function, and declaring a variable of type int.
+
+This suggests its efficacy in providing relevant and coherent code solutions for a wide range of generic programming scenarios.
+
+<img src="/uploads/2024/03/Image-from-Presentation-Data-Security-page-9-1024x762.png" />
+
+* * *
+
+**SPECIFIC PURPOSE**
+
+In the context of our specific task, the provided code iterates through a set of examples, printing both the command and its corresponding ground truth.
+
+The objective is to evaluate the model’s performance on our tailored task, distinct from its pre-trained capabilities. Each command is tokenized and fed into the model, with the generated output compared against the ground truth for assessment.
+
+This process, repeated for five iterations, underscores the unique challenges and nuances our specific task poses to the pre-trained model, emphasizing the need to scrutinize and potentially fine-tune the model to enhance its efficacy in addressing the intricacies of our targeted use case.
+
+<img src="/uploads/2024/03/Image-from-Presentation-Data-Security-page-10-1024x807.png" />
+
+* * *
+
+**TRANSFER LEARNING AND FINE-TUNING**
+
+The code introduces essential parameters for fine-tuning a pre-trained model on a specific task, including the output directory, evaluation strategy, learning rate, and batch sizes.
+
+The Trainer object is then configured with the model, tokenizer, and these parameters, using tokenized datasets for training and validation.
+
+The subsequent `trainer.train()` call initiates the fine-tuning process, allowing the pre-trained model to adapt to the specifics of our task.
+
+This underscores the crucial role of fine-tuning in optimizing the model for our goals and ensuring its proficiency in addressing the nuances of the targeted use case through iterative training epochs.
+
+<img src="/uploads/2024/03/Image-from-Presentation-Data-Security-page-11-879x1024.png" />
+
+* * *
+
+**COMPARISON OF THE MODELS**
+
+The presented results showcase the mean similarity scores for zero-shot and fine-tuned classifications using T5 and MarianMT models.
+
+Notably, both models exhibit a comparable trend in zero-shot classification, with mean similarity scores of approximately 32.02 for T5 and 32.06 for MarianMT.
+
+However, the divergence becomes evident after fine-tuning, where MarianMT achieves a substantial increase in accuracy, reaching a mean similarity score of 81.66.
+
+This discrepancy underscores the effectiveness of fine-tuning in significantly enhancing the performance of the MarianMT model for our specific task, suggesting its adaptability and responsiveness to targeted optimizations
+
+<img src="/uploads/2024/03/image-1.png" />
+
+* * *
+
+**Final Result**
+
+<img src="/uploads/2024/03/Screenshot-2024-03-05-at-02.12.04-1024x572.png" />
+
+To Sum up, in this project we saw how to give code descriptions as Input to the Transformer models and get the executable codes with 81% accuracy by the MarianMT model.

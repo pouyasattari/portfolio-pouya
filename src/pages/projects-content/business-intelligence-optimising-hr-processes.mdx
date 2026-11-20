@@ -1,0 +1,295 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+
+export const meta = {
+  author: 'Pouya Sattari',
+  date: '2024-02-06',
+  title: 'Business Intelligence: Optimising HR Processes',
+  description: 'A Comprehensive Workflow and Mailer System for Dismissal Letters, Utilized by the HR Team through Bonita Studio',
+}
+
+export default function Article(props) {
+  return <ArticleLayout {...props} meta={meta} />
+}
+
+### Introduction
+
+This project focuses on streamlining the employee dismissal process by utilizing workflow automation and email integration. The workflow, designed in the Bonita application, consists of two distinct lanes representing the Employee and Employer roles. The key objective is to enhance efficiency in handling employee dismissals while ensuring clear and timely communication. Through the integration of a mailer, automated dismissal notifications are sent to affected employees, providing essential information and maintaining professionalism during the termination process. This project demonstrates the practical application of business process automation and effective communication in HR management. 
+
+**Bonita BPM Platform Overview**
+
+<img src="/uploads/2024/02/image-5-1024x322.png" />
+
+**What is Bonita?**
+
+Bonita is a robust open-source platform designed for business process automation and optimization. It offers extensibility, empowering organizations to streamline their workflows and enhance operational efficiency.
+
+**Goals**
+
+The primary objective of the Bonita Platform is to expedite the development, deployment, and maintenance of automation projects. It empowers users to execute tasks that significantly impact their business data while seamlessly integrating with existing information systems, including the orchestration of heterogeneous systems, some of which may include soft robots. Additionally, Bonita provides deep insights into process execution across the organization through its embedded end-user applications or custom Living applications tailored by project teams to precisely meet specific business requirements.
+
+**Structure**
+
+### **The Bonita Platform comprises three main components:** 
+
+1.  Bonita Studio: This component is integral during the development phase of projects. It facilitates visual coding and design.
+
+2.  Bonita Runtime: Responsible for the various runtime phases, it hosts the BPM engine and applications.
+
+3.  Bonita Continuous Delivery: This component simplifies the iterative deployment of projects, facilitating smooth transitions from one environment to another.
+
+**Team Work**
+
+Bonita Studio fosters efficient teamwork by offering a clear separation between visual coding and Java/web coding capabilities. This empowers both business and technical teams to collaborate effectively. Citizen developers handle the business aspects of projects, such as defining processes, data models, and primary aspects of user interfaces. Meanwhile, professional developers support the projects by configuring technical elements and behaviors, coding unique extensions contributed to projects as Maven dependencies. BPMN (Business Process Model and Notation) serves as the common language for both teams, and project documentation aids in sharing project vision, needs, and achievements.
+
+**Editions**
+
+Bonita offers different editions tailored to varying needs:
+
+1.  Community (Open Source): Ideal for experimentation and handling complex projects.
+2.  Enterprise: Suitable for core and critical projects, offering enterprise-grade performance and comprehensive support.
+
+For added scalability, the Enterprise edition supports deployment in clusters. Alternatively, organizations can choose Bonita Cloud for managed runtime environments, allowing Bonita to supervise their deployments.
+
+**Bonita Studio Interface**
+
+In Bonita Studio, “Pool” and “Lane” are terms used to visually represent and organize the participants and roles involved in a business process or workflow. They help in modeling and depicting the various actors and their responsibilities within a process. In your project with two lanes, “Employee” and “Employer,” each lane likely represents a specific role or group of participants. 
+
+**Pool**
+
+A “Pool” is the highest-level container in Bonita Studio’s process modelling. It represents an entity or a major participant in the process. A pool typically corresponds to a department, organization, or an external entity involved in the process. Pools can also represent subprocesses.
+
+In our case, you may have a single pool representing the entire employee dismissal process. Within this pool, you have two lanes, “Employee” and “Employer,” which represent distinct roles or groups involved in the process.
+
+**Lane**
+
+A “Lane” is a sub-container within a pool and represents a specific role or participant within the process. Lanes help in organizing and assigning tasks to participants. They provide a visual separation of responsibilities and activities.
+
+In our project, we have two lanes:
+
+*   “Employee Lane“: This lane likely represents the actions and responsibilities of employees involved in the dismissal process. It may include tasks related to providing information, responding to notifications, or participating in discussions.
+
+*   “Employer Lane“: This lane is dedicated to the actions and responsibilities of the employer or HR department involved in the dismissal process. It may include tasks related to initiating dismissals, sending notifications, and managing the overall workflow.
+
+**Palette**
+
+<img src="/uploads/2024/02/image-7.png" />
+
+*   **Pools and Lanes:** Elements for organizing and structuring the process, including “Pool” (representing entities or departments) and “Lane” (representing roles or participants). 
+*   **Gateways:** Symbols for decision points in the process, such as “Exclusive Gateway” (for exclusive decisions), “Inclusive Gateway” (for inclusive decisions), or “Parallel Gateway” (for parallel execution). 
+*   **Sequence Flows:** Arrows that connect elements and represent the flow of the process, indicating the order in which activities should be performed. 
+*   **Tasks:** Symbols representing various tasks or activities that need to be performed within the process, including “User Task,” “Service Task,” or “Script Task.” 
+*   **Start Events:** Icons representing the start points of a process, such as “Start,” “Message Start,” or “Timer Start.” 
+*   **End Events:** Icons representing the termination points of a process, such as “End,” “Message End,” or “Terminate End.” 
+*   **Text Annotation:**  Text Annotations are used to add comments or explanatory notes to a BPMN diagram.
+
+**Project System Architecture Overview**
+
+The system architecture revolves around the Bonita BPM platform, serving as the central engine for workflow automation and management. Within Bonita Studio, the workflow is meticulously designed and configured, encompassing a sequence of tasks and activities. Notably, two pivotal elements are seamlessly integrated: forms, which act as user interfaces, facilitating data collection and presentation throughout the workflow, and mailers, responsible for email notifications and communications. Mailer configuration enables precise targeting of email addresses, such as the mentioned **_“`employee99test@gmail.com`“_** As the workflow unfolds, guided by predefined rules and conditions, it progresses through tasks and activities, efficiently processing employee dismissals. Crucially, when specific events transpire within the workflow, the mailer component promptly dispatches email notifications to the appropriate recipients, thereby ensuring the seamless flow of information and communication.
+
+**Dismissal Workflow between Employer and Employee**
+
+<img src="/uploads/2024/02/work-flow-belgio_page-0001-728x1024.jpg" />
+
+**Workflow Description**
+
+<img src="/uploads/2024/02/Screenshot-Bonita-1024x441.png" />
+
+The project workflow represents a meticulously designed process for handling employee dismissals, considering various dismissal types, and ensuring adherence to legal and ethical standards. Here is a detailed description of each step within the workflow: 
+
+**Start**
+
+The workflow initiates when an employee dismissal process is triggered.
+
+**Dismissal Type**
+
+The process begins by categorizing the type of dismissal:
+
+*   If it is an “Ordinary” dismissal, the process proceeds to end the employment with a notice period.
+*   If it is a “Serious” dismissal, the workflow progresses to the next step.
+
+**Compensation**
+
+<img src="/uploads/2024/02/image-9.png" />
+
+For “Serious” dismissals, compensation considerations are addressed.
+
+**Written Letter of Dismissal (Mailer Implemented Here)**
+
+An automated mailer component is implemented here to send a written dismissal letter to the employee.
+
+*   Within 6 Months’ Notice of Dismissal:
+
+A timeframe is defined for the employee’s response to the written dismissal letter.
+
+<img src="/uploads/2024/02/image-10.png" />
+
+### Email Text:
+
+Dear Employee,  
+I regret to inform you that your employment with Unina has been terminated effective Wednesday, September 27, 2023, following a thorough review of your performance and conduct.  
+You will receive your final paycheck, including accrued benefits, as per company policy.  
+**_Please return all company property and schedule a meeting with HR to discuss the termination process._**  
+_We appreciate your contributions and wish you success in your future endeavors._  
+Sincerely,  
+
+**Written Letter of Compliant**
+
+Depending on the employee’s response:
+
+*   If there is no response within the defined timeframe, the process ends with a penalty.
+*   If the employee responds, the workflow proceeds to the next step.
+
+**Provide Reason**
+
+The employee is asked to provide reasons for the dismissal, which can lead to two distinct paths:
+
+*   Voluntary Alternative Dispute Resolution (ADR) and End.
+*   Judicial Phase (Labour Tribunal).
+
+<img src="/uploads/2024/02/image-13.png" />
+
+**Voluntary ADR and End**
+
+<img src="/uploads/2024/02/image-14.png" />
+
+In cases where the employee and employer agree, the process concludes with a judicial agreement.
+
+**Judicial Phase (Labour Tribunal)**
+
+If no agreement is reached, the process enters the judicial phase, ensuring legal compliance.
+
+*   “Max 1 Year After Contract Termination”: The process must be initiated within a defined timeframe.
+
+*   “File a Request for Unfair Dismissal Complaint Within 8 Days”: The process begins by filing a formal request for an unfair dismissal complaint.
+
+**Judge Issues Order for Introductory Hearing**
+
+The judicial phase proceeds as the judge issues an order for an introductory hearing.
+
+**Employer and Employee Appear in 1st Hearing**
+
+<img src="/uploads/2024/02/image-15.png" />
+
+Both the employer and employee are required to appear for the first hearing.
+
+**Attempt of Judicial Conciliation**
+
+<img src="/uploads/2024/02/image-16.png" />
+
+During the hearing, an attempt at judicial conciliation is made:
+
+*   If an agreement is reached, the process concludes with a judicial agreement.
+*   If no agreement is reached, the workflow advances to the next step.
+
+**Discussion of Case**
+
+In the absence of an agreement, the case is discussed further.
+
+Oral Hearing:
+
+*   An oral hearing is scheduled within a specific timeframe.
+*   “Within 1 Month”: The hearing must occur promptly.
+
+**Dismissal Ends with Decision of Case**
+
+<img src="/uploads/2024/02/image-17.png" />
+
+The dismissal process concludes with a final decision on the case, ensuring fair and just resolution.
+
+This comprehensive workflow effectively manages employee dismissals, addressing different dismissal types, legal requirements, and possible outcomes while maintaining transparency and compliance with established timelines.
+
+**Email Connector**
+
+In Bonita, the “Mail Connector” is a component that facilitates email communication within a business process. It allows you to send and receive emails as part of your workflow automation. The Mail Connector is commonly used for various purposes, including notifications, alerts, and interactions with process participants or external stakeholders. 
+
+some key features and functionalities of the Mail Connector in Bonita:
+
+**Sending Emails**
+
+With the Mail Connector, you can configure your business process to send automated emails to designated recipients. This can include sending notifications, updates, or reports as the process progresses.
+
+<img src="/uploads/2024/02/image-18.png" />
+
+**Integration**
+
+<img src="/uploads/2024/02/image-19.png" />
+
+The Mail Connector can integrate with your organization’s email server or SMTP (Simple Mail Transfer Protocol) services to send and receive emails. This integration ensures that emails are sent reliably and securely.
+
+**Dynamic Content**
+
+<img src="/uploads/2024/02/image-20.png" />
+
+You can include dynamic content in the email body or subject line by referencing process variables or data collected during the workflow. This allows you to personalize emails and provide relevant information.
+
+**Attachments**
+
+The Mail Connector supports the inclusion of attachments in emails. You can attach documents, reports, or other files to emails sent from within your business process.
+
+<img src="/uploads/2024/02/image-21.png" />
+
+**Conditional Email Sending**
+
+You can configure conditions within your process to determine when and under what circumstances emails should be sent. This allows for flexibility in managing email notifications based on specific workflow events.
+
+**Error Handling**
+
+The Mail Connector includes error-handling mechanisms to address issues that may arise during email transmission. You can define how to handle errors, such as retrying, logging, or notifying administrators.
+
+**Logging and Auditing**
+
+Bonita provides logs and audit trails to track email communications, ensuring transparency and compliance with email-related activities.
+
+**Integration with Other Components**
+
+The Mail Connector can be integrated with other Bonita components, such as forms and user tasks, to create comprehensive workflows that involve both human interactions and automated email communications.
+
+**Benefits of Email Connector with Bonita**
+
+**Enhanced Efficiency in Handling Employee Dismissals**
+
+The project streamlines and automates the employee dismissal process, reducing manual effort and minimizing delays. This efficiency translates to quicker and smoother dismissal procedures.
+
+**Improved Communication Through Automated Email Notifications**
+
+Automated email notifications, facilitated by the SMTP SendGrid mail connector server, enhance communication between HR personnel and employees. Notifications are delivered promptly, ensuring that all parties are informed of the dismissal process and related developments in a timely manner.
+
+**Legal Compliance and Adherence to Timelines**
+
+The project meticulously adheres to legal requirements and timelines associated with employee dismissals. This commitment to compliance minimizes legal risks and ensures that dismissals are carried out in accordance with established regulations.
+
+**Flexibility to Address Different Dismissal Scenarios**
+
+The project’s workflow design accommodates various dismissal scenarios, categorizing them as “Ordinary” or “Serious.” This flexibility ensures that the dismissal process is tailored to the specific circumstances, providing a comprehensive solution for HR.
+
+**Empowerment of HR Personnel with a Structured and Streamlined Process**
+
+HR personnel are empowered with a structured, well-defined, and streamlined dismissal process. This clarity and efficiency enable HR teams to navigate dismissals with confidence, ensuring consistent and fair treatment of employees.
+
+**Forms**
+
+**Intuitive and User-Centric**
+
+<img src="/uploads/2024/02/image-22.png" />
+
+Bonita prioritizes a user-centric approach to UI design. Forms are crafted with a focus on user-friendliness and intuitive interactions, ensuring that both technical and non-technical users can navigate and complete tasks effortlessly.
+
+**Visual Design Capabilities**
+
+Bonita Studio provides a visual form designer that empowers users to create visually appealing and functional forms without extensive coding. It supports drag-and-drop elements for form creation.
+
+<img src="/uploads/2024/02/image-23.png" />
+
+**Dynamic Form Elements**
+
+Bonita forms can include dynamic elements that adapt to user input or changing workflow conditions. This enables the creation of forms that respond to user actions and provide contextually relevant information.
+
+**Data Binding**
+
+Forms are tightly integrated with data sources, such as process variables or external databases. This means you can easily bind form fields to data, ensuring that the right information is collected and displayed.
+
+**Conclusion**
+
+This project aims to streamline employee dismissals through workflow automation and email integration within the Bonita application. It features two distinct lanes for Employees and Employers, emphasizing efficiency and clear communication. Automated dismissal notifications are sent via a mailer component, ensuring professionalism. It demonstrates the practical use of technology in HR, addressing complexities and legal compliance.
+
+Overall, the project showcases how technology optimizes HR processes, reduces manual work, improves communication, and maintains legal compliance, making it a valuable resource for organizations seeking streamlined dismissal procedures.

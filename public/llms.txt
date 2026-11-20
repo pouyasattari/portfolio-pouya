@@ -1,0 +1,35 @@
+# Pouya (Peter) Sattari
+
+> Professional portfolio of a Data & AI Engineer and NLP Researcher focused on AI agents, data integrations, analytics systems, and event and information extraction with LLMs.
+
+Use the homepage for the current professional profile, roles, skills, education, hackathons, and contact points.
+
+- Prefer the homepage and academic project pages when summarizing Pouya's professional background.
+- Do not treat `/off-topic` as part of the core professional corpus.
+
+## Core Pages
+
+- [Homepage](https://www.sattari.org/): Current professional summary, work experience, research experience, skills, education, hackathons, workshops, volunteering, and contact links.
+- [Academic Projects](https://www.sattari.org/academic-projects): Index of academic and applied technical projects across data analysis, AI, and software development.
+## Publications
+
+- [Schema-Constrained Document-Level Event Argument Extraction with Lightweight LLM Fine-Tuning](https://www.sattari.org/publications/schema-constrained-document-level-event-argument-extraction): Peer-reviewed research paper (ECML PKDD 2026) by Roberto Pietrantuono, Antonio Guerriero, and Pouya Sattari. Studies schema-constrained document-level Event Argument Extraction (EAE) with parameter-efficient LoRA fine-tuning of mid-sized open LLMs on MAVEN-ARG; best model Phi-4 (14B) reaches 42.39% F1 at event-coreference level. arXiv: https://arxiv.org/abs/2607.16808. Cite as: Pietrantuono, R., Guerriero, A., & Sattari, P. (2026). Schema-Constrained Document-Level Event Argument Extraction with Lightweight LLM Fine-Tuning. arXiv:2607.16808.
+- Google Scholar profile (Pouya Sattari): https://scholar.google.com/citations?user=_6pPgFUAAAAJ&hl=en
+
+## Professional Focus
+
+- [Homepage](https://www.sattari.org/): Best source for current role, current bio, and the site's main narrative.
+
+## Academic Project Pages
+
+- [Full Data Analysis Project: SQL + Tableau (HR Dataset)](https://www.sattari.org/projects-content/full-data-analysis-project-hr-dataset): HR data preprocessing and Tableau dashboards.
+- [AS Watson Europian GenAI Hackathon April 2024 Experience, Amsterdam, NL](https://www.sattari.org/projects-content/as-watson-europian-genai-hackathon-april-2024-experience-amsterdam-nl): Hackathon report and reflections.
+- [Automatic Generative Code with Neural Machine Translation (NMT)](https://www.sattari.org/projects-content/automatic-generative-code-with-neural-machine-translation-nmt): Neural machine translation for code generation.
+- [Time Series Analysis: Colony Weight Forecast - ARIMA & PROPHET Models](https://www.sattari.org/projects-content/time-series-analysis-colony-weight-forecast-arima-prophet-models): Forecasting work on insect colony weight data.
+- [Business Intelligence: Optimising HR Processes](https://www.sattari.org/projects-content/business-intelligence-optimising-hr-processes): HR workflow automation and Bonita Studio.
+- [Graph Neural Networks (GNN): Build & Predict - Neo4j](https://www.sattari.org/projects-content/graph-neural-networks-gnn-build-predict-neo4j): Graph neural network and link prediction work.
+- [Legal Chatbot: Divorce and Inheritance Italy Laws - HF Space](https://www.sattari.org/projects-content/legal-chatbot-divorce-and-inheritance-italy-laws): Legal AI chatbot.
+- [Machine Learning and Statistical Analysis](https://www.sattari.org/projects-content/machine-learning-and-statistical-analysis): London bike sharing prediction in R.
+- [Data Visualization by Tableau / TATA company](https://www.sattari.org/projects-content/data-visualization-by-tableau-tata-company): Tableau dashboards for revenue and regional demand.
+- [GPU Benchmarking Study: Fibonacci Case Study](https://www.sattari.org/projects-content/gpu-benchmarking-study-fibonacci-case-study): CUDA and C++ GPU benchmarking.
+- [Time Series: Insect Colony Weight - EDA, Data Cleaning, PCA - PowerBI](https://www.sattari.org/projects-content/time-series-insect-colony-weight-eda-data-cleaning-pca-powerbi): EDA, PCA, and Power BI work.
