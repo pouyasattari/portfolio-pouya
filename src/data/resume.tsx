@@ -20,6 +20,7 @@ export const DATA = {
   summary:
     "I'm a Data & AI Engineer based in Bolzano, Italy. I focus on building AI agents, integrations, and data systems to deliver impactful outcomes. Having recently graduated with an MS in Data Science, I conduct research in event and information extraction with LLMs.",
   avatarUrl: "/me.jpg",
+  sourceUrl: "https://github.com/pouyasattari/portfolio-pouya",
   skills: [
     { name: "Python", icon: Python },
     { name: "Databricks", icon: Icons.databricks },

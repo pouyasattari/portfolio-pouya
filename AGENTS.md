@@ -11,7 +11,7 @@ This repo is Pouya Sattari's personal portfolio. All personal content in it belo
 ### Checklist
 
 **Profile and resume data**
-- [ ] `src/data/resume.tsx`: replace everything in `DATA`: name, initials, url, location, description, summary, avatar, skills, contact email, social links, `work`, `education`, `publications`, `writings`, `projects`, `hackathons`, `workshops`, `volunteering`, `digitalResources`. Empty the arrays for sections the new owner doesn't need.
+- [ ] `src/data/resume.tsx`: replace everything in `DATA`: name, initials, url, sourceUrl (your repo, shown as "This site is open source" under Contact), location, description, summary, avatar, skills, contact email, social links, `work`, `education`, `publications`, `writings`, `projects`, `hackathons`, `workshops`, `volunteering`, `digitalResources`. Empty the arrays for sections the new owner doesn't need.
 
 **Site titles and metadata**
 - [ ] `src/app/layout.tsx`: `browserTitle` and any metadata

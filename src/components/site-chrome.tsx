@@ -1,5 +1,6 @@
 import { FlickeringGrid } from "@/components/magicui/flickering-grid";
 import Navbar from "@/components/navbar";
+import ScrollToTop from "@/components/scroll-to-top";
 import { cn } from "@/lib/utils";
 import type { ReactNode } from "react";
 
@@ -34,6 +35,7 @@ export default function SiteChrome({
         />
       </div>
       <Navbar />
+      <ScrollToTop />
     </>
   );
 }

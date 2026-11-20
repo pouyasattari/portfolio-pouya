@@ -135,6 +135,19 @@ export default function Page() {
         <BlurFade delay={BLUR_FADE_DELAY * 16}>
           <ContactSection />
         </BlurFade>
+        <BlurFade delay={BLUR_FADE_DELAY * 17}>
+          <p className="mt-6 text-center text-xs text-muted-foreground">
+            This site is open source,{" "}
+            <a
+              href={DATA.sourceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-4 transition-colors hover:text-foreground"
+            >
+              view it on GitHub ↗
+            </a>
+          </p>
+        </BlurFade>
       </section>
     </main>
   );

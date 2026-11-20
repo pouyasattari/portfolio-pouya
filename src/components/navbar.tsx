@@ -4,7 +4,7 @@ import { Dock, DockIcon } from "@/components/magicui/dock";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Separator } from "@/components/ui/separator";
 import { useTheme } from "next-themes";
-import { useSyncExternalStore } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SunIcon } from "@radix-ui/react-icons";
@@ -34,6 +34,30 @@ const getDesktopDockSnapshot = () =>
 
 const getDesktopDockServerSnapshot = () => false;
 
+// Hides the dock halo once the page is scrolled to the end
+function useAtPageBottom() {
+  const [atBottom, setAtBottom] = useState(false);
+
+  useEffect(() => {
+    const update = () => {
+      const doc = document.documentElement;
+      setAtBottom(window.innerHeight + window.scrollY >= doc.scrollHeight - 8);
+    };
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    const observer = new ResizeObserver(update);
+    observer.observe(document.body);
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+      observer.disconnect();
+    };
+  }, []);
+
+  return atBottom;
+}
+
 export default function Navbar() {
   const { resolvedTheme } = useTheme();
   const pathname = usePathname();
@@ -45,13 +69,22 @@ export default function Navbar() {
   const socialItems = Object.entries(DATA.contact.social).filter(
     ([_, social]) => social.navbar
   );
+  const atBottom = useAtPageBottom();
   const dockKey = isDesktopDock ? "desktop-dock" : resolvedTheme ?? "pending-theme";
 
   return (
     <div className="pointer-events-none fixed inset-x-0 bottom-[calc(env(safe-area-inset-bottom)+0.625rem)] sm:bottom-[calc(env(safe-area-inset-bottom)+1rem)] z-30">
+      <div className="relative mx-auto w-fit">
+      <div
+        aria-hidden="true"
+        className={`pointer-events-none absolute inset-0 transition-opacity duration-300 ${atBottom ? "opacity-0" : "opacity-100"}`}
+      >
+        <div className="absolute -inset-x-16 -top-6 bottom-0 rounded-full bg-[color-mix(in_oklch,var(--background)_45%,transparent)] blur-2xl" />
+        <div className="absolute inset-0 rounded-full shadow-[0_-20px_56px_20px_color-mix(in_oklch,var(--background)_70%,transparent)]" />
+      </div>
       <Dock
         key={dockKey}
-        className="z-50 pointer-events-auto relative h-14 p-2 w-fit mx-auto flex gap-2 border bg-card/90 backdrop-blur-3xl shadow-[0_0_10px_3px] shadow-primary/5"
+        className="z-50 pointer-events-auto relative h-14 p-2 w-fit mx-auto flex gap-2 border dark:border-white/25 bg-card/90 backdrop-blur-3xl shadow-[0_0_10px_3px] shadow-primary/5"
       >
         {DATA.navbar.map((item) => {
           const isExternal = item.href.startsWith("http");
@@ -188,6 +221,7 @@ export default function Navbar() {
           </TooltipContent>
         </Tooltip>
       </Dock>
+      </div>
     </div>
   );
 }
