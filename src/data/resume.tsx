@@ -144,7 +144,7 @@ export const DATA = {
       company: "Eurac",
       badges: [],
       location: "Bolzano, Italy",
-      title: "Research Engineer",
+      title: "Research Engineer | Data & Infrastructure",
       logoUrl: "/logos/eurac_logo.jpg",
       start: "Sep 2026",
       end: undefined,
