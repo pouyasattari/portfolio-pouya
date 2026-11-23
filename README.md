@@ -1,8 +1,8 @@
 # Portfolio
 
-My personal portfolio and research website, live at [sattari.org](https://sattari.org).
+My personal portfolio and research website, live at [sattari.org](https://sattari.org)
 
-Built with Next.js, Tailwind CSS, shadcn/ui and Magic UI. It has a resume-style home page, publications with citation pages, academic project write-ups (MDX), writings, and a multilingual "How to work with me" user manual with RTL support (`/user-manual?lang=fa`).
+Built with Next.js, Tailwind CSS, shadcn/ui and Magic UI. It has a resume-style home page, publications with citation pages, academic project write-ups (MDX), writings, and a multilingual "How to work with me" user manual
 
 ## Credits
 
@@ -11,14 +11,14 @@ This site started from the open-source [portfolio template](https://github.com/d
 - Publications section with detail pages and citation export
 - Academic projects with MDX articles
 - Hackathons, workshops, volunteering, writings and digital resources sections
-- Multilingual user manual (9 languages, RTL typography for Farsi and Arabic, `?lang=` URLs)
+- Multilingual user manual
 - Cookie-free Vercel Analytics, JSON-LD, sitemap, `llms.txt`
 
 ## ⚠️ Cloning this repo? Make it yours first
 
-**Everything personal in this repo is mine** (name, photos, resume, projects, publications, logos, texts). If you use this as a template, please **remove or replace all of it with your own content** before you publish. Don't deploy my profile under your name.
+**Everything personal in this repo is mine** (name, photos, resume, projects, publications, logos, texts). If you use this as a template, please **remove or replace all of it with your own content** before you publish. Don't deploy my profile under your name
 
-The full checklist of what to replace is in [AGENTS.md](AGENTS.md). If you use an AI coding agent, point it at that file and it will walk through the replacement with you.
+The full checklist of what to replace is in [AGENTS.md](AGENTS.md). If you use an AI coding agent, point it at that file and it will walk through the replacement with you
 
 ## Getting started
 
@@ -27,7 +27,7 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000.
+Open http://localhost:3000
 
 ## License
 
